@@ -1,16 +1,16 @@
 {
-  "name": "knightbot",
+  "name": "mltn-md",
   "version": "1.0.0",
-  "description": "WhatsApp Bot",
+  "description": "MLTN MD WhatsApp Bot",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "postinstall": "npm install --platform=linux --arch=x64 sharp"
+    "start": "node index.js"
   },
   "keywords": [
-    "whatsapp-bot"
+    "whatsapp-bot",
+    "mltn-md"
   ],
-  "author": "",
+  "author": "Ephy Mawira",
   "license": "ISC",
   "dependencies": {
     "@adiwajshing/keyed-db": "^0.2.4",
@@ -64,6 +64,9 @@
     "youtubedl-core": "^4.11.7",
     "yt-search": "^2.12.1",
     "ytdl-core": "^4.11.5"
+  },
+  "optionalDependencies": {
+    "@img/sharp-linux-x64": "^0.32.6"
   },
   "overrides": {
     "jimp": "^1.6.0"
