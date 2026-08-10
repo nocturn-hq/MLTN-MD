@@ -11,7 +11,7 @@ async function blurCommand(sock, chatId, message, quotedMessage) {
             // If replying to a message
             if (!quotedMessage.imageMessage) {
                 await sock.sendMessage(chatId, { 
-                    text: '❌ Please reply to an image message' 
+                    text: '⛧ Reply to an image so the shadows may consume it.' 
                 }, { quoted: message });
                 return;
             }
@@ -38,7 +38,7 @@ async function blurCommand(sock, chatId, message, quotedMessage) {
             );
         } else {
             await sock.sendMessage(chatId, { 
-                text: '❌ Please reply to an image or send an image with caption .blur' 
+                text: '⛧ Reply to an image, or send one with caption .blur, to cloak it in shadow.' 
             }, { quoted: message });
             return;
         }
@@ -60,13 +60,13 @@ async function blurCommand(sock, chatId, message, quotedMessage) {
         // Send the blurred image
         await sock.sendMessage(chatId, {
             image: blurredImage,
-            caption: '*[ ✔ ] Image Blurred Successfully*',
+            caption: '*⛧ Veiled in shadow.*',
             contextInfo: {
                 forwardingScore: 1,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363161513685998@newsletter',
-                    newsletterName: 'KnightBot MD',
+                    newsletterName: 'MLTN-MD',
                     serverMessageId: -1
                 }
             }
@@ -75,9 +75,9 @@ async function blurCommand(sock, chatId, message, quotedMessage) {
     } catch (error) {
         console.error('Error in blur command:', error);
         await sock.sendMessage(chatId, { 
-            text: '❌ Failed to blur image. Please try again later.' 
+            text: '☠️ The shadows failed to veil that image. Try again.' 
         }, { quoted: message });
     }
 }
 
-module.exports = blurCommand; 
+module.exports = blurCommand;

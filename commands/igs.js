@@ -89,8 +89,8 @@ async function convertBufferToStickerWebp(inputBuffer, isAnimated, cropSquare) {
 
     const json = {
         'sticker-pack-id': crypto.randomBytes(32).toString('hex'),
-        'sticker-pack-name': settings.packname || 'KnightBot',
-        'emojis': ['📸']
+        'sticker-pack-name': settings.packname || 'MLTN-MD',
+        'emojis': ['⛧']
     };
     const exifAttr = Buffer.from([0x49, 0x49, 0x2A, 0x00, 0x08, 0x00, 0x00, 0x00, 0x01, 0x00, 0x41, 0x57, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x16, 0x00, 0x00, 0x00]);
     const jsonBuffer = Buffer.from(JSON.stringify(json), 'utf8');
@@ -117,8 +117,8 @@ async function convertBufferToStickerWebp(inputBuffer, isAnimated, cropSquare) {
                 await img2.load(smallWebp);
                 const json2 = {
                     'sticker-pack-id': crypto.randomBytes(32).toString('hex'),
-                    'sticker-pack-name': settings.packname || 'KnightBot',
-                    'emojis': ['📸']
+                    'sticker-pack-name': settings.packname || 'MLTN-MD',
+                    'emojis': ['⛧']
                 };
                 const exifAttr2 = Buffer.from([0x49, 0x49, 0x2A, 0x00, 0x08, 0x00, 0x00, 0x00, 0x01, 0x00, 0x41, 0x57, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x16, 0x00, 0x00, 0x00]);
                 const jsonBuffer2 = Buffer.from(JSON.stringify(json2), 'utf8');
@@ -189,7 +189,7 @@ async function igsCommand(sock, chatId, message, crop = false) {
         const text = message.message?.conversation || message.message?.extendedTextMessage?.text || '';
         const urlMatch = text.match(/https?:\/\/\S+/);
         if (!urlMatch) {
-            await sock.sendMessage(chatId, { text: `Send an Instagram post/reel link.\nUsage:\n.igs <url>\n.igsc <url>` }, { quoted: message });
+            await sock.sendMessage(chatId, { text: `⛧ Offer a soul (Instagram post/reel link) to forge a sticker.\nUsage:\n.igs <url>\n.igsc <url>` }, { quoted: message });
             return;
         }
 
@@ -197,7 +197,7 @@ async function igsCommand(sock, chatId, message, crop = false) {
 
         const downloadData = await igdl(urlMatch[0]).catch(() => null);
         if (!downloadData || !downloadData.data) {
-            await sock.sendMessage(chatId, { text: '❌ Failed to fetch media from Instagram link.' }, { quoted: message });
+            await sock.sendMessage(chatId, { text: '☠️ The shadows could not extract that Instagram link.' }, { quoted: message });
             return;
         }
         // Raw items
@@ -212,7 +212,7 @@ async function igsCommand(sock, chatId, message, crop = false) {
             }
         }
         if (items.length === 0) {
-            await sock.sendMessage(chatId, { text: '❌ No media found at the provided link.' }, { quoted: message });
+            await sock.sendMessage(chatId, { text: '☠️ No media found at that link. The trail is cold.' }, { quoted: message });
             return;
         }
 
@@ -265,7 +265,7 @@ async function igsCommand(sock, chatId, message, crop = false) {
 
     } catch (err) {
         console.error('Error in igs command:', err);
-        await sock.sendMessage(chatId, { text: 'Failed to create sticker from Instagram link.' }, { quoted: message });
+        await sock.sendMessage(chatId, { text: '☠️ The forge shattered — failed to craft a sticker from that link.' }, { quoted: message });
     }
 }
 
@@ -299,8 +299,8 @@ async function forceMiniSticker(inputBuffer, isVideo, cropSquare) {
     await img.load(smallWebp);
     const json = {
         'sticker-pack-id': crypto.randomBytes(32).toString('hex'),
-        'sticker-pack-name': settings.packname || 'KnightBot',
-        'emojis': ['📸']
+        'sticker-pack-name': settings.packname || 'MLTN-MD',
+        'emojis': ['⛧']
     };
     const exifAttr = Buffer.from([0x49, 0x49, 0x2A, 0x00, 0x08, 0x00, 0x00, 0x00, 0x01, 0x00, 0x41, 0x57, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x16, 0x00, 0x00, 0x00]);
     const jsonBuffer = Buffer.from(JSON.stringify(json), 'utf8');
@@ -316,5 +316,3 @@ async function forceMiniSticker(inputBuffer, isVideo, cropSquare) {
 }
 
 module.exports = { igsCommand };
-
-

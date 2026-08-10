@@ -11,18 +11,18 @@ async function unbanCommand(sock, chatId, message) {
         const senderId = message.key.participant || message.key.remoteJid;
         const { isSenderAdmin, isBotAdmin } = await isAdmin(sock, chatId, senderId);
         if (!isBotAdmin) {
-            await sock.sendMessage(chatId, { text: 'Please make the bot an admin to use .unban', ...channelInfo }, { quoted: message });
+            await sock.sendMessage(chatId, { text: '⚔️ *Crown me admin first, Hunter.* The Monarch needs authority to lift a banishment.', ...channelInfo }, { quoted: message });
             return;
         }
         if (!isSenderAdmin && !message.key.fromMe) {
-            await sock.sendMessage(chatId, { text: 'Only group admins can use .unban', ...channelInfo }, { quoted: message });
+            await sock.sendMessage(chatId, { text: '👑 *Only those who wear the crown may pardon the exiled.* Admins only.', ...channelInfo }, { quoted: message });
             return;
         }
     } else {
         const senderId = message.key.participant || message.key.remoteJid;
         const senderIsSudo = await isSudo(senderId);
         if (!message.key.fromMe && !senderIsSudo) {
-            await sock.sendMessage(chatId, { text: 'Only owner/sudo can use .unban in private chat', ...channelInfo }, { quoted: message });
+            await sock.sendMessage(chatId, { text: '👑 *Only the Monarch and his chosen may pardon the exiled here.*', ...channelInfo }, { quoted: message });
             return;
         }
     }
@@ -39,7 +39,7 @@ async function unbanCommand(sock, chatId, message) {
     
     if (!userToUnban) {
         await sock.sendMessage(chatId, { 
-            text: 'Please mention the user or reply to their message to unban!', 
+            text: '🖤 *Name the exiled, Hunter.* Mention them or reply to their message to lift the banishment.', 
             ...channelInfo 
         }, { quoted: message });
         return;
@@ -53,21 +53,21 @@ async function unbanCommand(sock, chatId, message) {
             fs.writeFileSync('./data/banned.json', JSON.stringify(bannedUsers, null, 2));
             
             await sock.sendMessage(chatId, { 
-                text: `Successfully unbanned ${userToUnban.split('@')[0]}!`,
+                text: `⚔️ *The exile is lifted.* @${userToUnban.split('@')[0]} walks free of the shadow once more.`,
                 mentions: [userToUnban],
                 ...channelInfo 
             });
         } else {
             await sock.sendMessage(chatId, { 
-                text: `${userToUnban.split('@')[0]} is not banned!`,
+                text: `🖤 @${userToUnban.split('@')[0]} was never bound in exile.`,
                 mentions: [userToUnban],
                 ...channelInfo 
             });
         }
     } catch (error) {
         console.error('Error in unban command:', error);
-        await sock.sendMessage(chatId, { text: 'Failed to unban user!', ...channelInfo }, { quoted: message });
+        await sock.sendMessage(chatId, { text: '💀 *The pardon has failed.* The shadows would not release them, Hunter.', ...channelInfo }, { quoted: message });
     }
 }
 
-module.exports = unbanCommand; 
+module.exports = unbanCommand;

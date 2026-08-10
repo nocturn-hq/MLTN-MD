@@ -23,7 +23,7 @@ async function tiktokCommand(sock, chatId, message) {
         
         if (!text) {
             return await sock.sendMessage(chatId, { 
-                text: "Please provide a TikTok link for the video."
+                text: "🖤 *Hunter, you summoned nothing.* Send a TikTok link for the Monarch to seize."
             });
         }
 
@@ -32,7 +32,7 @@ async function tiktokCommand(sock, chatId, message) {
         
         if (!url) {
             return await sock.sendMessage(chatId, { 
-                text: "Please provide a TikTok link for the video."
+                text: "🖤 *Hunter, you summoned nothing.* Send a TikTok link for the Monarch to seize."
             });
         }
 
@@ -49,7 +49,7 @@ async function tiktokCommand(sock, chatId, message) {
         
         if (!isValidUrl) {
             return await sock.sendMessage(chatId, { 
-                text: "That is not a valid TikTok link. Please provide a valid TikTok video link."
+                text: "⚔️ *That sigil is false.* Present a valid TikTok link, or face rejection."
             });
         }
 
@@ -125,12 +125,12 @@ async function tiktokCommand(sock, chatId, message) {
                                 await sock.sendMessage(chatId, {
                                     video: { url: mediaUrl },
                                     mimetype: "video/mp4",
-                                    caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗞𝗡𝗜𝗚𝗛𝗧-𝗕𝗢𝗧"
+                                    caption: "☠️ *SEIZED BY THE SHADOW MONARCH* ☠️\n『 M L T N - M D 』"
                                 }, { quoted: message });
                             } else {
                                 await sock.sendMessage(chatId, {
                                     image: { url: mediaUrl },
-                                    caption: "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗞𝗡𝗜𝗚𝗛𝗧-𝗕𝗢𝗧"
+                                    caption: "☠️ *SEIZED BY THE SHADOW MONARCH* ☠️\n『 M L T N - M D 』"
                                 }, { quoted: message });
                             }
                         }
@@ -181,7 +181,7 @@ async function tiktokCommand(sock, chatId, message) {
                         }
                     }
                     
-                    const caption = title ? `𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗞𝗡𝗜𝗚𝗛𝗧-𝗕𝗢𝗧\n\n📝 Title: ${title}` : "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗞𝗡𝗜𝗚𝗛𝗧-𝗕𝗢𝗧";
+                    const caption = title ? `☠️ *SEIZED BY THE SHADOW MONARCH* ☠️\n『 M L T N - M D 』\n\n📜 Title: ${title}` : "☠️ *SEIZED BY THE SHADOW MONARCH* ☠️\n『 M L T N - M D 』";
                     
                     await sock.sendMessage(chatId, {
                         video: videoBuffer,
@@ -205,7 +205,7 @@ async function tiktokCommand(sock, chatId, message) {
                             await sock.sendMessage(chatId, {
                                 audio: audioBuffer,
                                 mimetype: "audio/mp3",
-                                caption: "🎵 Audio from TikTok"
+                                caption: "🎵 An echo torn from the shadows"
                             }, { quoted: message });
                         } catch (audioError) {
                             console.error(`Failed to download audio: ${audioError.message}`);
@@ -216,7 +216,7 @@ async function tiktokCommand(sock, chatId, message) {
                     console.error(`Failed to download video: ${downloadError.message}`);
                     // Fallback to URL method
                     try {
-                        const caption = title ? `𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗞𝗡𝗜𝗚𝗛𝗧-𝗕𝗢𝗧\n\n📝 Title: ${title}` : "𝗗𝗢𝗪𝗡𝗟𝗢𝗔𝗗𝗘𝗗 𝗕𝗬 𝗞𝗡𝗜𝗚𝗛𝗧-𝗕𝗢𝗧";
+                        const caption = title ? `☠️ *SEIZED BY THE SHADOW MONARCH* ☠️\n『 M L T N - M D 』\n\n📜 Title: ${title}` : "☠️ *SEIZED BY THE SHADOW MONARCH* ☠️\n『 M L T N - M D 』";
                         
                         await sock.sendMessage(chatId, {
                             video: { url: videoUrl },
@@ -232,20 +232,20 @@ async function tiktokCommand(sock, chatId, message) {
 
             // If we reach here, no method worked
             return await sock.sendMessage(chatId, { 
-                text: "❌ Failed to download TikTok video. All download methods failed. Please try again with a different link or check if the video is available."
+                text: "💀 *The shadows refused to yield.* Every extraction attempt has failed, Hunter. Try again — or bring a worthier link."
             },{ quoted: message });
         } catch (error) {
             console.error('Error in TikTok download:', error);
             await sock.sendMessage(chatId, { 
-                text: "Failed to download the TikTok video. Please try again with a different link."
+                text: "💀 *The extraction has collapsed.* This soul would not surrender. Try again with another link, Hunter."
             },{ quoted: message });
         }
     } catch (error) {
         console.error('Error in TikTok command:', error);
         await sock.sendMessage(chatId, { 
-            text: "An error occurred while processing the request. Please try again later."
+            text: "⚠️ *A rift opened and swallowed the request.* Something went wrong in the Monarch's domain. Try again shortly."
         },{ quoted: message });
     }
 }
 
-module.exports = tiktokCommand; 
+module.exports = tiktokCommand;

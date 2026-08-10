@@ -12,7 +12,7 @@ async function imagineCommand(sock, chatId, message) {
         
         if (!imagePrompt) {
             await sock.sendMessage(chatId, {
-                text: 'Please provide a prompt for the image generation.\nExample: .imagine a beautiful sunset over mountains'
+                text: '⛧ Speak a vision and the shadows shall conjure it.\nExample: .imagine a beautiful sunset over mountains'
             }, {
                 quoted: message
             });
@@ -21,7 +21,7 @@ async function imagineCommand(sock, chatId, message) {
 
         // Send processing message
         await sock.sendMessage(chatId, {
-            text: '🎨 Generating your image... Please wait.'
+            text: '⛧ Summoning your vision from the void... stand by.'
         }, {
             quoted: message
         });
@@ -40,7 +40,7 @@ async function imagineCommand(sock, chatId, message) {
         // Send the generated image
         await sock.sendMessage(chatId, {
             image: imageBuffer,
-            caption: `🎨 Generated image for prompt: "${imagePrompt}"`
+            caption: `👑 Vision made manifest: "${imagePrompt}"`
         }, {
             quoted: message
         });
@@ -48,7 +48,7 @@ async function imagineCommand(sock, chatId, message) {
     } catch (error) {
         console.error('Error in imagine command:', error);
         await sock.sendMessage(chatId, {
-            text: '❌ Failed to generate image. Please try again later.'
+            text: '☠️ The vision would not take form. Try again, hunter.'
         }, {
             quoted: message
         });
@@ -81,4 +81,4 @@ function enhancePrompt(prompt) {
     return `${prompt}, ${selectedEnhancers.join(', ')}`;
 }
 
-module.exports = imagineCommand; 
+module.exports = imagineCommand;

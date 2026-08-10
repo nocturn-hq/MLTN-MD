@@ -1,6 +1,6 @@
 /**
- * Knight Bot - A WhatsApp Bot
- * Autotyping Command - Shows fake typing status
+ * MLTN-MD - Shadow Monarch Edition
+ * Autotyping Command - The shadows stir before they strike
  */
 
 const fs = require('fs');
@@ -26,13 +26,13 @@ async function autotypingCommand(sock, chatId, message) {
         
         if (!message.key.fromMe && !isOwner) {
             await sock.sendMessage(chatId, {
-                text: '❌ This command is only available for the owner!',
+                text: '👑 Only the Sovereign may command this power!',
                 contextInfo: {
                     forwardingScore: 1,
                     isForwarded: true,
                     forwardedNewsletterMessageInfo: {
                         newsletterJid: '120363161513685998@newsletter',
-                        newsletterName: 'KnightBot MD',
+                        newsletterName: 'MLTN-MD',
                         serverMessageId: -1
                     }
                 }
@@ -57,13 +57,13 @@ async function autotypingCommand(sock, chatId, message) {
                 config.enabled = false;
             } else {
                 await sock.sendMessage(chatId, {
-                    text: '❌ Invalid option! Use: .autotyping on/off',
+                    text: '❌ Unknown decree! Use: .autotyping on/off',
                     contextInfo: {
                         forwardingScore: 1,
                         isForwarded: true,
                         forwardedNewsletterMessageInfo: {
                             newsletterJid: '120363161513685998@newsletter',
-                            newsletterName: 'KnightBot MD',
+                            newsletterName: 'MLTN-MD',
                             serverMessageId: -1
                         }
                     }
@@ -80,28 +80,28 @@ async function autotypingCommand(sock, chatId, message) {
         
         // Send confirmation message
         await sock.sendMessage(chatId, {
-            text: `✅ Auto-typing has been ${config.enabled ? 'enabled' : 'disabled'}!`,
+            text: `👑 The shadows have ${config.enabled ? 'awakened' : 'gone still'} — Auto-typing ${config.enabled ? 'enabled' : 'disabled'}!`,
             contextInfo: {
                 forwardingScore: 1,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363161513685998@newsletter',
-                    newsletterName: 'KnightBot MD',
+                    newsletterName: 'MLTN-MD',
                     serverMessageId: -1
                 }
             }
         });
         
     } catch (error) {
-        console.error('Error in autotyping command:', error);
+        console.error('The shadows failed to stir (autotyping command error):', error);
         await sock.sendMessage(chatId, {
-            text: '❌ Error processing command!',
+            text: '💀 The shadows failed to answer this command!',
             contextInfo: {
                 forwardingScore: 1,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363161513685998@newsletter',
-                    newsletterName: 'KnightBot MD',
+                    newsletterName: 'MLTN-MD',
                     serverMessageId: -1
                 }
             }
@@ -115,7 +115,7 @@ function isAutotypingEnabled() {
         const config = initConfig();
         return config.enabled;
     } catch (error) {
-        console.error('Error checking autotyping status:', error);
+        console.error('Failed to read the shadow stir state (autotyping status error):', error);
         return false;
     }
 }
@@ -147,7 +147,7 @@ async function handleAutotypingForMessage(sock, chatId, userMessage) {
             
             return true; // Indicates typing was shown
         } catch (error) {
-            console.error('❌ Error sending typing indicator:', error);
+            console.error('💀 The shadow stir was interrupted (typing indicator error):', error);
             return false; // Indicates typing failed
         }
     }
@@ -181,7 +181,7 @@ async function handleAutotypingForCommand(sock, chatId) {
             
             return true; // Indicates typing was shown
         } catch (error) {
-            console.error('❌ Error sending command typing indicator:', error);
+            console.error('💀 The shadow stir was interrupted (command typing indicator error):', error);
             return false; // Indicates typing failed
         }
     }
@@ -209,7 +209,7 @@ async function showTypingAfterCommand(sock, chatId) {
             
             return true;
         } catch (error) {
-            console.error('❌ Error sending post-command typing indicator:', error);
+            console.error('💀 The shadow stir was interrupted (post-command typing indicator error):', error);
             return false;
         }
     }

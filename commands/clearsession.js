@@ -9,7 +9,7 @@ const channelInfo = {
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
             newsletterJid: '120363161513685998@newsletter',
-            newsletterName: 'KnightBot MD',
+            newsletterName: 'MLTN-MD',
             serverMessageId: -1
         }
     }
@@ -22,7 +22,7 @@ async function clearSessionCommand(sock, chatId, msg) {
         
         if (!msg.key.fromMe && !isOwner) {
             await sock.sendMessage(chatId, { 
-                text: '❌ This command can only be used by the owner!',
+                text: '👑 Only the Sovereign may command this power!',
                 ...channelInfo
             });
             return;
@@ -33,7 +33,7 @@ async function clearSessionCommand(sock, chatId, msg) {
 
         if (!fs.existsSync(sessionDir)) {
             await sock.sendMessage(chatId, { 
-                text: '❌ Session directory not found!',
+                text: '❌ The shadow vault could not be found!',
                 ...channelInfo
             });
             return;
@@ -45,7 +45,7 @@ async function clearSessionCommand(sock, chatId, msg) {
 
         // Send initial status
         await sock.sendMessage(chatId, { 
-            text: `🔍 Optimizing session files for better performance...`,
+            text: `🌑 Purging the shadow vault of dead weight...`,
             ...channelInfo
         });
 
@@ -77,12 +77,12 @@ async function clearSessionCommand(sock, chatId, msg) {
         }
 
         // Send completion message
-        const message = `✅ Session files cleared successfully!\n\n` +
+        const message = `👑 The shadow vault has been purged!\n\n` +
                        `📊 Statistics:\n` +
-                       `• Total files cleared: ${filesCleared}\n` +
+                       `• Total files purged: ${filesCleared}\n` +
                        `• App state sync files: ${appStateSyncCount}\n` +
                        `• Pre-key files: ${preKeyCount}\n` +
-                       (errors > 0 ? `\n⚠️ Errors encountered: ${errors}\n${errorDetails.join('\n')}` : '');
+                       (errors > 0 ? `\n⚠️ Some shadows resisted purging: ${errors}\n${errorDetails.join('\n')}` : '');
 
         await sock.sendMessage(chatId, { 
             text: message,
@@ -90,12 +90,12 @@ async function clearSessionCommand(sock, chatId, msg) {
         });
 
     } catch (error) {
-        console.error('Error in clearsession command:', error);
+        console.error('The purge ritual failed (clearsession command error):', error);
         await sock.sendMessage(chatId, { 
-            text: '❌ Failed to clear session files!',
+            text: '💀 The shadows failed to purge the vault!',
             ...channelInfo
         });
     }
 }
 
-module.exports = clearSessionCommand; 
+module.exports = clearSessionCommand;

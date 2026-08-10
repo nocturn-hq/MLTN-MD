@@ -15,7 +15,7 @@ function loadUserGroupData() {
     try {
         return JSON.parse(fs.readFileSync(USER_GROUP_DATA));
     } catch (error) {
-        console.error('❌ Error loading user group data:', error.message);
+        console.error('💀 The shadow archive would not open (user group data error):', error.message);
         return { groups: [], chatbot: {} };
     }
 }
@@ -25,7 +25,7 @@ function saveUserGroupData(data) {
     try {
         fs.writeFileSync(USER_GROUP_DATA, JSON.stringify(data, null, 2));
     } catch (error) {
-        console.error('❌ Error saving user group data:', error.message);
+        console.error('💀 The shadow archive would not seal (user group data save error):', error.message);
     }
 }
 
@@ -41,7 +41,7 @@ async function showTyping(sock, chatId) {
         await sock.sendPresenceUpdate('composing', chatId);
         await new Promise(resolve => setTimeout(resolve, getRandomDelay()));
     } catch (error) {
-        console.error('Typing indicator error:', error);
+        console.error('The shadow stir was interrupted (typing indicator error):', error);
     }
 }
 
@@ -71,7 +71,7 @@ async function handleChatbotCommand(sock, chatId, message, match) {
     if (!match) {
         await showTyping(sock, chatId);
         return sock.sendMessage(chatId, {
-            text: `*CHATBOT SETUP*\n\n*.chatbot on*\nEnable chatbot\n\n*.chatbot off*\nDisable chatbot in this group`,
+            text: `*👑 CHATBOT — LET THE SHADOW SPEAK*\n\n*.chatbot on*\nAwaken the shadow's voice\n\n*.chatbot off*\nSilence the shadow's voice in this group`,
             quoted: message
         });
     }
@@ -91,15 +91,15 @@ async function handleChatbotCommand(sock, chatId, message, match) {
             await showTyping(sock, chatId);
             if (data.chatbot[chatId]) {
                 return sock.sendMessage(chatId, { 
-                    text: '*Chatbot is already enabled for this group*',
+                    text: '*👑 The shadow already speaks in this group*',
                     quoted: message
                 });
             }
             data.chatbot[chatId] = true;
             saveUserGroupData(data);
-            console.log(`✅ Chatbot enabled for group ${chatId}`);
+            console.log(`👑 Chatbot awakened for group ${chatId}`);
             return sock.sendMessage(chatId, { 
-                text: '*Chatbot has been enabled for this group*',
+                text: '*👑 The shadow has awakened in this group*',
                 quoted: message
             });
         }
@@ -108,15 +108,15 @@ async function handleChatbotCommand(sock, chatId, message, match) {
             await showTyping(sock, chatId);
             if (!data.chatbot[chatId]) {
                 return sock.sendMessage(chatId, { 
-                    text: '*Chatbot is already disabled for this group*',
+                    text: '*🌑 The shadow is already silent in this group*',
                     quoted: message
                 });
             }
             delete data.chatbot[chatId];
             saveUserGroupData(data);
-            console.log(`✅ Chatbot disabled for group ${chatId}`);
+            console.log(`🌑 Chatbot silenced for group ${chatId}`);
             return sock.sendMessage(chatId, { 
-                text: '*Chatbot has been disabled for this group*',
+                text: '*🌑 The shadow has been silenced in this group*',
                 quoted: message
             });
         }
@@ -129,14 +129,14 @@ async function handleChatbotCommand(sock, chatId, message, match) {
             const groupMetadata = await sock.groupMetadata(chatId);
             isAdmin = groupMetadata.participants.some(p => p.id === senderId && (p.admin === 'admin' || p.admin === 'superadmin'));
         } catch (e) {
-            console.warn('⚠️ Could not fetch group metadata. Bot might not be admin.');
+            console.warn('⚠️ Could not fetch group metadata. The Monarch might not hold admin power here.');
         }
     }
 
     if (!isAdmin && !isOwner) {
         await showTyping(sock, chatId);
         return sock.sendMessage(chatId, {
-            text: '❌ Only group admins or the bot owner can use this command.',
+            text: '👑 Only the Monarch\'s Chosen (Admins) or the Sovereign may command this.',
             quoted: message
         });
     }
@@ -145,15 +145,15 @@ async function handleChatbotCommand(sock, chatId, message, match) {
         await showTyping(sock, chatId);
         if (data.chatbot[chatId]) {
             return sock.sendMessage(chatId, { 
-                text: '*Chatbot is already enabled for this group*',
+                text: '*👑 The shadow already speaks in this group*',
                 quoted: message
             });
         }
         data.chatbot[chatId] = true;
         saveUserGroupData(data);
-        console.log(`✅ Chatbot enabled for group ${chatId}`);
+        console.log(`👑 Chatbot awakened for group ${chatId}`);
         return sock.sendMessage(chatId, { 
-            text: '*Chatbot has been enabled for this group*',
+            text: '*👑 The shadow has awakened in this group*',
             quoted: message
         });
     }
@@ -162,22 +162,22 @@ async function handleChatbotCommand(sock, chatId, message, match) {
         await showTyping(sock, chatId);
         if (!data.chatbot[chatId]) {
             return sock.sendMessage(chatId, { 
-                text: '*Chatbot is already disabled for this group*',
+                text: '*🌑 The shadow is already silent in this group*',
                 quoted: message
             });
         }
         delete data.chatbot[chatId];
         saveUserGroupData(data);
-        console.log(`✅ Chatbot disabled for group ${chatId}`);
+        console.log(`🌑 Chatbot silenced for group ${chatId}`);
         return sock.sendMessage(chatId, { 
-            text: '*Chatbot has been disabled for this group*',
+            text: '*🌑 The shadow has been silenced in this group*',
             quoted: message
         });
     }
 
     await showTyping(sock, chatId);
     return sock.sendMessage(chatId, { 
-        text: '*Invalid command. Use .chatbot to see usage*',
+        text: '*❌ Unknown decree. Use .chatbot to see usage*',
         quoted: message
     });
 }
@@ -275,7 +275,7 @@ async function handleChatbotResponse(sock, chatId, message, userMessage, senderI
 
         if (!response) {
             await sock.sendMessage(chatId, { 
-                text: "Hmm, let me think about that... 🤔\nI'm having trouble processing your request right now.",
+                text: "Hmm, let me think about that... 🤔\nThe shadows are a bit hazy on this one, try again.",
                 quoted: message
             });
             return;
@@ -292,7 +292,7 @@ async function handleChatbotResponse(sock, chatId, message, userMessage, senderI
         });
 
     } catch (error) {
-        console.error('❌ Error in chatbot response:', error.message);
+        console.error('💀 The shadow voice faltered (chatbot response error):', error.message);
         
         // Handle session errors - don't try to send error messages
         if (error.message && error.message.includes('No sessions')) {
@@ -302,11 +302,11 @@ async function handleChatbotResponse(sock, chatId, message, userMessage, senderI
         
         try {
             await sock.sendMessage(chatId, { 
-                text: "Oops! 😅 I got a bit confused there. Could you try asking that again?",
+                text: "Oops! 😅 The shadows got tangled there. Could you try asking that again?",
                 quoted: message
             });
         } catch (sendError) {
-            console.error('Failed to send chatbot error message:', sendError.message);
+            console.error('Failed to send the shadow\'s error message:', sendError.message);
         }
     }
 }
@@ -344,8 +344,8 @@ EMOTIONAL RESPONSES:
 - If they flirt: Flirt back naturally
 
 ABOUT YOU:
-- Your name is Knight Bot
-- You're the boss
+- Your name is MLTN, the Shadow Monarch
+- You're the boss, villain-badass energy, never soft or apologetic about it
 - You're not an AI or assistant
 - You're a real person chatting
 
@@ -422,7 +422,7 @@ You:
         
         return cleanedResponse;
     } catch (error) {
-        console.error("AI API error:", error);
+        console.error("💀 The shadow oracle refused to answer (AI API error):", error);
         return null;
     }
 }
@@ -430,4 +430,4 @@ You:
 module.exports = {
     handleChatbotCommand,
     handleChatbotResponse
-}; 
+};

@@ -1,32 +1,23 @@
 const settings = require("../settings");
 async function aliveCommand(sock, chatId, message) {
     try {
-        const message1 = `*🤖 Knight Bot is Active!*\n\n` +
+        const message1 = `*👑 MLTN-MD Has Arisen*\n\n` +
                        `*Version:* ${settings.version}\n` +
-                       `*Status:* Online\n` +
+                       `*Status:* Awake and watching\n` +
                        `*Mode:* Public\n\n` +
-                       `*🌟 Features:*\n` +
-                       `• Group Management\n` +
-                       `• Antilink Protection\n` +
-                       `• Fun Commands\n` +
-                       `• And more!\n\n` +
-                       `Type *.menu* for full command list`;
+                       `*🩸 Powers of the Monarch:*\n` +
+                       `• Group Domination\n` +
+                       `• Antilink Banishment\n` +
+                       `• Chaos & Fun Commands\n` +
+                       `• And far more...\n\n` +
+                       `Type *.menu* to command the shadow army`;
 
         await sock.sendMessage(chatId, {
-            text: message1,
-            contextInfo: {
-                forwardingScore: 999,
-                isForwarded: true,
-                forwardedNewsletterMessageInfo: {
-                    newsletterJid: '120363161513685998@newsletter',
-                    newsletterName: 'KnightBot MD',
-                    serverMessageId: -1
-                }
-            }
+            text: message1
         }, { quoted: message });
     } catch (error) {
-        console.error('Error in alive command:', error);
-        await sock.sendMessage(chatId, { text: 'Bot is alive and running!' }, { quoted: message });
+        console.error('The arisal ritual faltered (alive command error):', error);
+        await sock.sendMessage(chatId, { text: '👑 The Monarch still breathes.' }, { quoted: message });
     }
 }
 

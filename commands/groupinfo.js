@@ -21,20 +21,20 @@ async function groupInfoCommand(sock, chatId, msg) {
 
         // Create info text
         const text = `
-┌──「 *INFO GROUP* 」
-▢ *♻️ID:*
+┌──「 *⛧ SHADOW ARMY INFO ⛧* 」
+▢ *♻️ Sigil ID:*
    • ${groupMetadata.id}
-▢ *🔖NAME* : 
+▢ *🔖 Domain Name* : 
 • ${groupMetadata.subject}
-▢ *👥Members* :
+▢ *👥 Soldiers Bound:*
 • ${participants.length}
-▢ *🤿Group Owner:*
+▢ *🤿 Monarch of this Domain:*
 • @${owner.split('@')[0]}
-▢ *🕵🏻‍♂️Admins:*
+▢ *🕵🏻‍♂️ Elite Commanders:*
 ${listAdmin}
 
-▢ *📌Description* :
-   • ${groupMetadata.desc?.toString() || 'No description'}
+▢ *📌 Decree* :
+   • ${groupMetadata.desc?.toString() || 'No decree has been spoken.'}
 `.trim();
 
         // Send the message with image and mentions
@@ -46,8 +46,8 @@ ${listAdmin}
 
     } catch (error) {
         console.error('Error in groupinfo command:', error);
-        await sock.sendMessage(chatId, { text: 'Failed to get group info!' });
+        await sock.sendMessage(chatId, { text: '⛧ The shadows refused to reveal this domain\'s secrets!' });
     }
 }
 
-module.exports = groupInfoCommand; 
+module.exports = groupInfoCommand;

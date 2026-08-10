@@ -19,7 +19,7 @@ async function stickerTelegramCommand(sock, chatId, msg) {
         
         if (!args[0]) {
             await sock.sendMessage(chatId, { 
-                text: '⚠️ Please enter the Telegram sticker URL!\n\nExample: .tg https://t.me/addstickers/Porcientoreal' 
+                text: '⛧ Offer a Telegram sticker pack URL for the shadows to claim!\n\nExample: .tg https://t.me/addstickers/Porcientoreal' 
             });
             return;
         }
@@ -27,7 +27,7 @@ async function stickerTelegramCommand(sock, chatId, msg) {
         // Validate URL format
         if (!args[0].match(/(https:\/\/t.me\/addstickers\/)/gi)) {
             await sock.sendMessage(chatId, { 
-                text: '❌ Invalid URL! Make sure it\'s a Telegram sticker URL.' 
+                text: '☠️ Invalid URL! It must be a Telegram sticker pack link.' 
             });
             return;
         }
@@ -63,7 +63,7 @@ async function stickerTelegramCommand(sock, chatId, msg) {
 
             // Send initial message with sticker count
             await sock.sendMessage(chatId, { 
-                text: `📦 Found ${stickerSet.result.stickers.length} stickers\n⏳ Starting download...` 
+                text: `⛧ ${stickerSet.result.stickers.length} souls found in this pack\n⏳ The extraction begins...` 
             });
 
             // Create temp directory if it doesn't exist
@@ -129,7 +129,7 @@ async function stickerTelegramCommand(sock, chatId, msg) {
                     const metadata = {
                         'sticker-pack-id': crypto.randomBytes(32).toString('hex'),
                         'sticker-pack-name': settings.packname,
-                        'emojis': sticker.emoji ? [sticker.emoji] : ['🤖']
+                        'emojis': sticker.emoji ? [sticker.emoji] : ['⛧']
                     };
 
                     // Create exif buffer
@@ -168,7 +168,7 @@ async function stickerTelegramCommand(sock, chatId, msg) {
 
             // Only send completion message at the end
             await sock.sendMessage(chatId, { 
-                text: `✅ Successfully downloaded ${successCount}/${stickerSet.result.stickers.length} stickers!` 
+                text: `👑 Claimed ${successCount}/${stickerSet.result.stickers.length} souls into the shadow army!` 
             });
 
         } catch (error) {
@@ -178,9 +178,9 @@ async function stickerTelegramCommand(sock, chatId, msg) {
     } catch (error) {
         console.error('Error in stickertelegram command:', error);
         await sock.sendMessage(chatId, { 
-            text: '❌ Failed to process Telegram stickers!\nMake sure:\n1. The URL is correct\n2. The sticker pack exists\n3. The sticker pack is public' 
+            text: '☠️ The shadows failed to claim that pack!\nMake sure:\n1. The URL is correct\n2. The sticker pack exists\n3. The sticker pack is public' 
         });
     }
 }
 
-module.exports = stickerTelegramCommand; 
+module.exports = stickerTelegramCommand;

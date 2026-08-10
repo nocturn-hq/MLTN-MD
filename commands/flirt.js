@@ -13,11 +13,11 @@ async function flirtCommand(sock, chatId, message) {
         const flirtMessage = json.result;
 
         // Send the flirt message
-        await sock.sendMessage(chatId, { text: flirtMessage }, { quoted: message });
+        await sock.sendMessage(chatId, { text: `😏 ${flirtMessage}` }, { quoted: message });
     } catch (error) {
-        console.error('Error in flirt command:', error);
-        await sock.sendMessage(chatId, { text: '❌ Failed to get flirt message. Please try again later!' }, { quoted: message });
+        console.error('The shadow charm failed to summon (flirt command error):', error);
+        await sock.sendMessage(chatId, { text: '💀 The shadows are out of charm right now. Try again later!' }, { quoted: message });
     }
 }
 
-module.exports = { flirtCommand }; 
+module.exports = { flirtCommand };

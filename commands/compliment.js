@@ -51,7 +51,7 @@ async function complimentCommand(sock, chatId, message) {
         
         if (!userToCompliment) {
             await sock.sendMessage(chatId, { 
-                text: 'Please mention someone or reply to their message to compliment them!'
+                text: '👑 Name your target — mention someone or reply to their message and the Monarch shall bless them!'
             });
             return;
         }
@@ -62,16 +62,16 @@ async function complimentCommand(sock, chatId, message) {
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         await sock.sendMessage(chatId, { 
-            text: `Hey @${userToCompliment.split('@')[0]}, ${compliment}`,
+            text: `👑 @${userToCompliment.split('@')[0]}, even the Monarch admits: ${compliment}`,
             mentions: [userToCompliment]
         });
     } catch (error) {
-        console.error('Error in compliment command:', error);
+        console.error('The blessing ritual failed (compliment command error):', error);
         if (error.data === 429) {
             await new Promise(resolve => setTimeout(resolve, 2000));
             try {
                 await sock.sendMessage(chatId, { 
-                    text: 'Please try again in a few seconds.'
+                    text: '🌑 The shadows are overwhelmed. Try again in a few seconds.'
                 });
             } catch (retryError) {
                 console.error('Error sending retry message:', retryError);
@@ -79,7 +79,7 @@ async function complimentCommand(sock, chatId, message) {
         } else {
             try {
                 await sock.sendMessage(chatId, { 
-                    text: 'An error occurred while sending the compliment.'
+                    text: '💀 The shadows failed to deliver this blessing.'
                 });
             } catch (sendError) {
                 console.error('Error sending error message:', sendError);

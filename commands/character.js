@@ -15,7 +15,7 @@ async function characterCommand(sock, chatId, message) {
     
     if (!userToAnalyze) {
         await sock.sendMessage(chatId, { 
-            text: 'Please mention someone or reply to their message to analyze their character!', 
+            text: '👑 Name your target — mention someone or reply to their message to read their shadow!', 
             ...channelInfo 
         });
         return;
@@ -56,11 +56,11 @@ async function characterCommand(sock, chatId, message) {
         });
 
         // Create character analysis message
-        const analysis = `🔮 *Character Analysis* 🔮\n\n` +
-            `👤 *User:* ${userToAnalyze.split('@')[0]}\n\n` +
-            `✨ *Key Traits:*\n${traitPercentages.join('\n')}\n\n` +
-            `🎯 *Overall Rating:* ${Math.floor(Math.random() * 21) + 80}%\n\n` +
-            `Note: This is a fun analysis and should not be taken seriously!`;
+        const analysis = `👑 *Shadow Reading* 👑\n\n` +
+            `👤 *Target:* ${userToAnalyze.split('@')[0]}\n\n` +
+            `🌑 *Traits Sensed in Their Shadow:*\n${traitPercentages.join('\n')}\n\n` +
+            `⚔️ *Power Level:* ${Math.floor(Math.random() * 21) + 80}%\n\n` +
+            `Note: This is a fun shadow reading and should not be taken seriously!`;
 
         // Send the analysis with the user's profile picture
         await sock.sendMessage(chatId, {
@@ -71,12 +71,12 @@ async function characterCommand(sock, chatId, message) {
         });
 
     } catch (error) {
-        console.error('Error in character command:', error);
+        console.error('The shadow reading failed (character command error):', error);
         await sock.sendMessage(chatId, { 
-            text: 'Failed to analyze character! Try again later.',
+            text: '💀 The shadows would not reveal this reading! Try again later.',
             ...channelInfo 
         });
     }
 }
 
-module.exports = characterCommand; 
+module.exports = characterCommand;

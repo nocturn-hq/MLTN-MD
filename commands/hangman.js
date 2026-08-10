@@ -15,12 +15,12 @@ function startHangman(sock, chatId) {
         maxWrongGuesses: 6,
     };
 
-    sock.sendMessage(chatId, { text: `Game started! The word is: ${maskedWord}` });
+    sock.sendMessage(chatId, { text: `⛧ A word lies sealed in shadow. Break it: ${maskedWord}` });
 }
 
 function guessLetter(sock, chatId, letter) {
     if (!hangmanGames[chatId]) {
-        sock.sendMessage(chatId, { text: 'No game in progress. Start a new game with .hangman' });
+        sock.sendMessage(chatId, { text: '☠️ No trial in progress. Summon one with .hangman' });
         return;
     }
 
@@ -28,7 +28,7 @@ function guessLetter(sock, chatId, letter) {
     const { word, guessedLetters, maskedWord, maxWrongGuesses } = game;
 
     if (guessedLetters.includes(letter)) {
-        sock.sendMessage(chatId, { text: `You already guessed "${letter}". Try another letter.` });
+        sock.sendMessage(chatId, { text: `⛧ You already claimed "${letter}". Choose another.` });
         return;
     }
 
@@ -40,18 +40,18 @@ function guessLetter(sock, chatId, letter) {
                 maskedWord[i] = letter;
             }
         }
-        sock.sendMessage(chatId, { text: `Good guess! ${maskedWord.join(' ')}` });
+        sock.sendMessage(chatId, { text: `⚔️ The shadow yields! ${maskedWord.join(' ')}` });
 
         if (!maskedWord.includes('_')) {
-            sock.sendMessage(chatId, { text: `Congratulations! You guessed the word: ${word}` });
+            sock.sendMessage(chatId, { text: `👑 The word is broken. You have conquered it: ${word}` });
             delete hangmanGames[chatId];
         }
     } else {
         game.wrongGuesses += 1;
-        sock.sendMessage(chatId, { text: `Wrong guess! You have ${maxWrongGuesses - game.wrongGuesses} tries left.` });
+        sock.sendMessage(chatId, { text: `☠️ Wrong. ${maxWrongGuesses - game.wrongGuesses} attempts remain before the shadows consume you.` });
 
         if (game.wrongGuesses >= maxWrongGuesses) {
-            sock.sendMessage(chatId, { text: `Game over! The word was: ${word}` });
+            sock.sendMessage(chatId, { text: `☠️ You have fallen. The word was: ${word}` });
             delete hangmanGames[chatId];
         }
     }

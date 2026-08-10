@@ -28,7 +28,7 @@ const getFolderSizeInMB = (folderPath) => {
 
         return totalSize / (1024 * 1024); // Convert bytes to MB
     } catch (err) {
-        console.error('Error getting folder size:', err);
+        console.error('Failed to measure the shadow vault (folder size error):', err);
         return 0;
     }
 };
@@ -46,7 +46,7 @@ const cleanTempFolderIfLarge = () => {
             }
         }
     } catch (err) {
-        console.error('Temp cleanup error:', err);
+        console.error('The shadow vault purge failed (temp cleanup error):', err);
     }
 };
 
@@ -68,7 +68,7 @@ function saveAntideleteConfig(config) {
     try {
         fs.writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2));
     } catch (err) {
-        console.error('Config save error:', err);
+        console.error('Failed to seal the ward (config save error):', err);
     }
 }
 
@@ -80,14 +80,14 @@ async function handleAntideleteCommand(sock, chatId, message, match) {
     const isOwner = await isOwnerOrSudo(senderId, sock, chatId);
     
     if (!message.key.fromMe && !isOwner) {
-        return sock.sendMessage(chatId, { text: '*Only the bot owner can use this command.*' }, { quoted: message });
+        return sock.sendMessage(chatId, { text: '*👑 Only the Sovereign (bot owner) may command this ward.*' }, { quoted: message });
     }
 
     const config = loadAntideleteConfig();
 
     if (!match) {
         return sock.sendMessage(chatId, {
-            text: `*ANTIDELETE SETUP*\n\nCurrent Status: ${config.enabled ? '✅ Enabled' : '❌ Disabled'}\n\n*.antidelete on* - Enable\n*.antidelete off* - Disable`
+            text: `*👑 ANTIDELETE — NOTHING ESCAPES THE SHADOW*\n\nCurrent Status: ${config.enabled ? '✅ Active' : '❌ Dormant'}\n\n*.antidelete on* - Awaken the ward\n*.antidelete off* - Silence the ward`
         }, {quoted: message});
     }
 
@@ -96,11 +96,11 @@ async function handleAntideleteCommand(sock, chatId, message, match) {
     } else if (match === 'off') {
         config.enabled = false;
     } else {
-        return sock.sendMessage(chatId, { text: '*Invalid command. Use .antidelete to see usage.*' }, {quoted:message});
+        return sock.sendMessage(chatId, { text: '*❌ Unknown decree. Use .antidelete to see usage.*' }, {quoted:message});
     }
 
     saveAntideleteConfig(config);
-    return sock.sendMessage(chatId, { text: `*Antidelete ${match === 'on' ? 'enabled' : 'disabled'}*` }, {quoted:message});
+    return sock.sendMessage(chatId, { text: `*👑 Antidelete ward ${match === 'on' ? 'awakened' : 'silenced'}*` }, {quoted:message});
 }
 
 // Store incoming messages (also handles anti-view-once by forwarding immediately)
@@ -183,7 +183,7 @@ async function storeMessage(sock, message) {
                 const ownerNumber = sock.user.id.split(':')[0] + '@s.whatsapp.net';
                 const senderName = sender.split('@')[0];
                 const mediaOptions = {
-                    caption: `*Anti-ViewOnce ${mediaType}*
+                    caption: `*👁️ Anti-ViewOnce ${mediaType} — Nothing Hides From the Shadow*
 From: @${senderName}`,
                     mentions: [sender]
                 };
@@ -200,7 +200,7 @@ From: @${senderName}`,
         }
 
     } catch (err) {
-        console.error('storeMessage error:', err);
+        console.error('The shadow archive faltered (storeMessage error):', err);
     }
 }
 
@@ -229,8 +229,8 @@ async function handleMessageRevocation(sock, revocationMessage) {
             day: '2-digit', month: '2-digit', year: 'numeric'
         });
 
-        let text = `*🔰 ANTIDELETE REPORT 🔰*\n\n` +
-            `*🗑️ Deleted By:* @${deletedBy.split('@')[0]}\n` +
+        let text = `*👑 SHADOW ARCHIVE — NOTHING IS TRULY DELETED 👑*\n\n` +
+            `*🗑️ Erased By:* @${deletedBy.split('@')[0]}\n` +
             `*👤 Sender:* @${senderName}\n` +
             `*📱 Number:* ${sender}\n` +
             `*🕒 Time:* ${time}\n`;
@@ -238,7 +238,7 @@ async function handleMessageRevocation(sock, revocationMessage) {
         if (groupName) text += `*👥 Group:* ${groupName}\n`;
 
         if (original.content) {
-            text += `\n*💬 Deleted Message:*\n${original.content}`;
+            text += `\n*💬 Reclaimed From the Shadows:*\n${original.content}`;
         }
 
         await sock.sendMessage(ownerNumber, {
@@ -249,7 +249,7 @@ async function handleMessageRevocation(sock, revocationMessage) {
         // Media sending
         if (original.mediaType && fs.existsSync(original.mediaPath)) {
             const mediaOptions = {
-                caption: `*Deleted ${original.mediaType}*\nFrom: @${senderName}`,
+                caption: `*👑 Reclaimed ${original.mediaType}*\nFrom: @${senderName}`,
                 mentions: [sender]
             };
 
@@ -284,7 +284,7 @@ async function handleMessageRevocation(sock, revocationMessage) {
                 }
             } catch (err) {
                 await sock.sendMessage(ownerNumber, {
-                    text: `⚠️ Error sending media: ${err.message}`
+                    text: `⚠️ The shadows dropped this media: ${err.message}`
                 });
             }
 
@@ -292,14 +292,14 @@ async function handleMessageRevocation(sock, revocationMessage) {
             try {
                 fs.unlinkSync(original.mediaPath);
             } catch (err) {
-                console.error('Media cleanup error:', err);
+                console.error('The shadow vault could not be cleared (media cleanup error):', err);
             }
         }
 
         messageStore.delete(messageId);
 
     } catch (err) {
-        console.error('handleMessageRevocation error:', err);
+        console.error('The reclamation ritual failed (handleMessageRevocation error):', err);
     }
 }
 

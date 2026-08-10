@@ -17,7 +17,7 @@ async function settingsCommand(sock, chatId, message) {
         const isOwner = await isOwnerOrSudo(senderId, sock, chatId);
         
         if (!message.key.fromMe && !isOwner) {
-            await sock.sendMessage(chatId, { text: 'Only bot owner can use this command!' }, { quoted: message });
+            await sock.sendMessage(chatId, { text: '⛧ Only the Monarch (MILITAN) may command these shadows!' }, { quoted: message });
             return;
         }
 
@@ -44,51 +44,52 @@ async function settingsCommand(sock, chatId, message) {
         const chatbotOn = groupId ? Boolean(userGroupData.chatbot && userGroupData.chatbot[groupId]) : false;
         const antitagCfg = groupId ? (userGroupData.antitag && userGroupData.antitag[groupId]) : null;
 
+        const on = '🟣 ACTIVE';
+        const off = '⚫ DORMANT';
+
         const lines = [];
-        lines.push('*BOT SETTINGS*');
+        lines.push('⛧═══「 𝗠𝗢𝗡𝗔𝗥𝗖𝗛 𝗗𝗘𝗖𝗥𝗘𝗘𝗦 」═══⛧');
         lines.push('');
-        lines.push(`• Mode: ${mode.isPublic ? 'Public' : 'Private'}`);
-        lines.push(`• Auto Status: ${autoStatus.enabled ? 'ON' : 'OFF'}`);
-        lines.push(`• Autoread: ${autoread.enabled ? 'ON' : 'OFF'}`);
-        lines.push(`• Autotyping: ${autotyping.enabled ? 'ON' : 'OFF'}`);
-        lines.push(`• PM Blocker: ${pmblocker.enabled ? 'ON' : 'OFF'}`);
-        lines.push(`• Anticall: ${anticall.enabled ? 'ON' : 'OFF'}`);
-        lines.push(`• Auto Reaction: ${autoReaction ? 'ON' : 'OFF'}`);
+        lines.push(`👑 Domain Mode: ${mode.isPublic ? 'Public' : 'Sealed (Private)'}`);
+        lines.push(`🌘 Auto Status: ${autoStatus.enabled ? on : off}`);
+        lines.push(`👁️ Autoread: ${autoread.enabled ? on : off}`);
+        lines.push(`⌨️ Autotyping: ${autotyping.enabled ? on : off}`);
+        lines.push(`🚪 PM Blocker: ${pmblocker.enabled ? on : off}`);
+        lines.push(`📵 Anticall: ${anticall.enabled ? on : off}`);
+        lines.push(`🎭 Auto Reaction: ${autoReaction ? on : off}`);
         if (groupId) {
             lines.push('');
-            lines.push(`Group: ${groupId}`);
+            lines.push(`⛧ Domain: ${groupId}`);
             if (antilinkOn) {
                 const al = userGroupData.antilink[groupId];
-                lines.push(`• Antilink: ON (action: ${al.action || 'delete'})`);
+                lines.push(`🔗 Antilink: ${on} (punishment: ${al.action || 'delete'})`);
             } else {
-                lines.push('• Antilink: OFF');
+                lines.push(`🔗 Antilink: ${off}`);
             }
             if (antibadwordOn) {
                 const ab = userGroupData.antibadword[groupId];
-                lines.push(`• Antibadword: ON (action: ${ab.action || 'delete'})`);
+                lines.push(`🗯️ Antibadword: ${on} (punishment: ${ab.action || 'delete'})`);
             } else {
-                lines.push('• Antibadword: OFF');
+                lines.push(`🗯️ Antibadword: ${off}`);
             }
-            lines.push(`• Welcome: ${welcomeOn ? 'ON' : 'OFF'}`);
-            lines.push(`• Goodbye: ${goodbyeOn ? 'ON' : 'OFF'}`);
-            lines.push(`• Chatbot: ${chatbotOn ? 'ON' : 'OFF'}`);
+            lines.push(`🚶 Welcome Rite: ${welcomeOn ? on : off}`);
+            lines.push(`⚰️ Farewell Rite: ${goodbyeOn ? on : off}`);
+            lines.push(`🤖 Chatbot Spirit: ${chatbotOn ? on : off}`);
             if (antitagCfg && antitagCfg.enabled) {
-                lines.push(`• Antitag: ON (action: ${antitagCfg.action || 'delete'})`);
+                lines.push(`🏷️ Antitag: ${on} (punishment: ${antitagCfg.action || 'delete'})`);
             } else {
-                lines.push('• Antitag: OFF');
+                lines.push(`🏷️ Antitag: ${off}`);
             }
         } else {
             lines.push('');
-            lines.push('Note: Per-group settings will be shown when used inside a group.');
+            lines.push('⛧ Enter a domain (group) to reveal its own decrees.');
         }
 
         await sock.sendMessage(chatId, { text: lines.join('\n') }, { quoted: message });
     } catch (error) {
         console.error('Error in settings command:', error);
-        await sock.sendMessage(chatId, { text: 'Failed to read settings.' }, { quoted: message });
+        await sock.sendMessage(chatId, { text: '☠️ The shadows could not reveal the decrees.' }, { quoted: message });
     }
 }
 
 module.exports = settingsCommand;
-
-

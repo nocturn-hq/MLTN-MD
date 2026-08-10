@@ -6,12 +6,12 @@ async function kickCommand(sock, chatId, senderId, mentionedJids, message) {
         const { isSenderAdmin, isBotAdmin } = await isAdmin(sock, chatId, senderId);
 
         if (!isBotAdmin) {
-            await sock.sendMessage(chatId, { text: 'Please make the bot an admin first.' }, { quoted: message });
+            await sock.sendMessage(chatId, { text: '⚔️ *Crown me admin first, Hunter.* The Monarch needs authority to banish.' }, { quoted: message });
             return;
         }
 
         if (!isSenderAdmin) {
-            await sock.sendMessage(chatId, { text: 'Only group admins can use the kick command.' }, { quoted: message });
+            await sock.sendMessage(chatId, { text: '👑 *Only those who wear the crown may cast others into exile.*' }, { quoted: message });
             return;
         }
     }
@@ -27,7 +27,7 @@ async function kickCommand(sock, chatId, senderId, mentionedJids, message) {
     
     if (usersToKick.length === 0) {
         await sock.sendMessage(chatId, { 
-            text: 'Please mention the user or reply to their message to kick!'
+            text: '🖤 *Name your target, Hunter.* Mention them or reply to their message to cast them out!'
         }, { quoted: message });
         return;
     }
@@ -103,7 +103,7 @@ async function kickCommand(sock, chatId, senderId, mentionedJids, message) {
 
     if (isTryingToKickBot) {
         await sock.sendMessage(chatId, { 
-            text: "I can't kick myself🤖"
+            text: "☠️ *The Monarch does not banish himself.*"
         }, { quoted: message });
         return;
     }
@@ -116,13 +116,13 @@ async function kickCommand(sock, chatId, senderId, mentionedJids, message) {
         }));
         
         await sock.sendMessage(chatId, { 
-            text: `${usernames.join(', ')} has been kicked successfully!`,
+            text: `⚔️ *EXILED FROM THE KINGDOM* ⚔️\n${usernames.join(', ')} has been cast into the shadow.`,
             mentions: usersToKick
         });
     } catch (error) {
         console.error('Error in kick command:', error);
         await sock.sendMessage(chatId, { 
-            text: 'Failed to kick user(s)!'
+            text: '💀 *The banishment has failed.* The shadows would not take them, Hunter.'
         });
     }
 }

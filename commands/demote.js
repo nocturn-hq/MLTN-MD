@@ -5,7 +5,7 @@ async function demoteCommand(sock, chatId, mentionedJids, message) {
         // First check if it's a group
         if (!chatId.endsWith('@g.us')) {
             await sock.sendMessage(chatId, { 
-                text: 'This command can only be used in groups!'
+                text: '👑 This power only works within the ranks of a group!'
             });
             return;
         }
@@ -16,21 +16,21 @@ async function demoteCommand(sock, chatId, mentionedJids, message) {
             
             if (!adminStatus.isBotAdmin) {
                 await sock.sendMessage(chatId, { 
-                    text: '❌ Error: Please make the bot an admin first to use this command.'
+                    text: '❌ Grant the Monarch admin power first to use this command.'
                 });
                 return;
             }
 
             if (!adminStatus.isSenderAdmin) {
                 await sock.sendMessage(chatId, { 
-                    text: '❌ Error: Only group admins can use the demote command.'
+                    text: '👑 Only the Monarch\'s Chosen (Admins) can strip rank.'
                 });
                 return;
             }
         } catch (adminError) {
-            console.error('Error checking admin status:', adminError);
+            console.error('The rank check faltered (admin status error):', adminError);
             await sock.sendMessage(chatId, { 
-                text: '❌ Error: Please make sure the bot is an admin of this group.'
+                text: '❌ Make sure the Monarch holds admin power in this group.'
             });
             return;
         }
@@ -49,7 +49,7 @@ async function demoteCommand(sock, chatId, mentionedJids, message) {
         // If no user found through either method
         if (userToDemote.length === 0) {
             await sock.sendMessage(chatId, { 
-                text: '❌ Error: Please mention the user or reply to their message to demote!'
+                text: '👑 Name your target — mention the user or reply to their message to strip their rank!'
             });
             return;
         }
@@ -67,10 +67,10 @@ async function demoteCommand(sock, chatId, mentionedJids, message) {
         // Add delay to avoid rate limiting
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        const demotionMessage = `*『 GROUP DEMOTION 』*\n\n` +
-            `👤 *Demoted User${userToDemote.length > 1 ? 's' : ''}:*\n` +
+        const demotionMessage = `*『 RANK STRIPPED 』*\n\n` +
+            `👤 *Fallen from Grace:*\n` +
             `${usernames.map(name => `• ${name}`).join('\n')}\n\n` +
-            `👑 *Demoted By:* @${message.key.participant ? message.key.participant.split('@')[0] : message.key.remoteJid.split('@')[0]}\n\n` +
+            `👑 *By Order Of:* @${message.key.participant ? message.key.participant.split('@')[0] : message.key.remoteJid.split('@')[0]}\n\n` +
             `📅 *Date:* ${new Date().toLocaleString()}`;
         
         await sock.sendMessage(chatId, { 
@@ -78,12 +78,12 @@ async function demoteCommand(sock, chatId, mentionedJids, message) {
             mentions: [...userToDemote, message.key.participant || message.key.remoteJid]
         });
     } catch (error) {
-        console.error('Error in demote command:', error);
+        console.error('The rank-stripping ritual failed (demote command error):', error);
         if (error.data === 429) {
             await new Promise(resolve => setTimeout(resolve, 2000));
             try {
                 await sock.sendMessage(chatId, { 
-                    text: '❌ Rate limit reached. Please try again in a few seconds.'
+                    text: '🌑 The shadows are overwhelmed. Try again in a few seconds.'
                 });
             } catch (retryError) {
                 console.error('Error sending retry message:', retryError);
@@ -91,7 +91,7 @@ async function demoteCommand(sock, chatId, mentionedJids, message) {
         } else {
             try {
                 await sock.sendMessage(chatId, { 
-                    text: '❌ Failed to demote user(s). Make sure the bot is admin and has sufficient permissions.'
+                    text: '💀 Failed to strip rank. Make sure the Monarch is admin with sufficient power.'
                 });
             } catch (sendError) {
                 console.error('Error sending error message:', sendError);
@@ -130,16 +130,16 @@ async function handleDemotionEvent(sock, groupId, participants, author) {
             demotedBy = `@${authorJid.split('@')[0]}`;
             mentionList.push(authorJid);
         } else {
-            demotedBy = 'System';
+            demotedBy = 'The Shadows';
         }
 
         // Add delay to avoid rate limiting
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        const demotionMessage = `*『 GROUP DEMOTION 』*\n\n` +
-            `👤 *Demoted User${participants.length > 1 ? 's' : ''}:*\n` +
+        const demotionMessage = `*『 RANK STRIPPED 』*\n\n` +
+            `👤 *Fallen from Grace:*\n` +
             `${demotedUsernames.map(name => `• ${name}`).join('\n')}\n\n` +
-            `👑 *Demoted By:* ${demotedBy}\n\n` +
+            `👑 *By Order Of:* ${demotedBy}\n\n` +
             `📅 *Date:* ${new Date().toLocaleString()}`;
         
         await sock.sendMessage(groupId, {
@@ -147,7 +147,7 @@ async function handleDemotionEvent(sock, groupId, participants, author) {
             mentions: mentionList
         });
     } catch (error) {
-        console.error('Error handling demotion event:', error);
+        console.error('The rank-stripping ritual failed (demotion event error):', error);
         if (error.data === 429) {
             await new Promise(resolve => setTimeout(resolve, 2000));
         }

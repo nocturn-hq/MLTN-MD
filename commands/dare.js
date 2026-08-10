@@ -13,10 +13,10 @@ async function dareCommand(sock, chatId, message) {
         const dareMessage = json.result;
 
         // Send the dare message
-        await sock.sendMessage(chatId, { text: dareMessage }, { quoted: message });
+        await sock.sendMessage(chatId, { text: `👑 The Monarch dares you:\n\n${dareMessage}` }, { quoted: message });
     } catch (error) {
-        console.error('Error in dare command:', error);
-        await sock.sendMessage(chatId, { text: '❌ Failed to get dare. Please try again later!' }, { quoted: message });
+        console.error('The shadow trial failed to summon (dare command error):', error);
+        await sock.sendMessage(chatId, { text: '💀 The shadows could not conjure a dare. Try again later!' }, { quoted: message });
     }
 }
 

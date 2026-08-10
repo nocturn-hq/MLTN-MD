@@ -22,13 +22,13 @@ function clearDirectory(dirPath) {
                 deletedCount++;
             } catch (err) {
                 // Only log errors
-                console.error(`Error deleting file ${file}:`, err);
+                console.error(`The shadows resisted purging ${file}:`, err);
             }
         }
-        return { success: true, message: `Cleared ${deletedCount} files in ${path.basename(dirPath)}`, count: deletedCount };
+        return { success: true, message: `Purged ${deletedCount} files from ${path.basename(dirPath)}`, count: deletedCount };
     } catch (error) {
-        console.error('Error in clearDirectory:', error);
-        return { success: false, message: `Failed to clear files in ${path.basename(dirPath)}`, error: error.message };
+        console.error('The purge ritual failed (clearDirectory error):', error);
+        return { success: false, message: `Failed to purge files in ${path.basename(dirPath)}`, error: error.message };
     }
 }
 
@@ -54,7 +54,7 @@ async function clearTmpCommand(sock, chatId, msg) {
         
         if (!msg.key.fromMe && !isOwner) {
             await sock.sendMessage(chatId, { 
-                text: '❌ This command is only available for the owner!' 
+                text: '👑 Only the Sovereign may command this power!' 
             });
             return;
         }
@@ -63,18 +63,18 @@ async function clearTmpCommand(sock, chatId, msg) {
         
         if (result.success) {
             await sock.sendMessage(chatId, { 
-                text: `✅ ${result.message}` 
+                text: `👑 ${result.message}` 
             });
         } else {
             await sock.sendMessage(chatId, { 
-                text: `❌ ${result.message}` 
+                text: `💀 ${result.message}` 
             });
         }
 
     } catch (error) {
-        console.error('Error in cleartmp command:', error);
+        console.error('The purge ritual failed (cleartmp command error):', error);
         await sock.sendMessage(chatId, { 
-            text: '❌ Failed to clear temporary files!' 
+            text: '💀 The shadows failed to purge the temporary files!' 
         });
     }
 }
@@ -84,7 +84,7 @@ function startAutoClear() {
     // Run immediately on startup
     clearTmpDirectory().then(result => {
         if (!result.success) {
-            console.error(`[Auto Clear] ${result.message}`);
+            console.error(`[Shadow Auto-Purge] ${result.message}`);
         }
         // No log for success, regardless of count
     });
@@ -93,7 +93,7 @@ function startAutoClear() {
     setInterval(async () => {
         const result = await clearTmpDirectory();
         if (!result.success) {
-            console.error(`[Auto Clear] ${result.message}`);
+            console.error(`[Shadow Auto-Purge] ${result.message}`);
         }
         // No log for success, regardless of count
     }, 6 * 60 * 60 * 1000); // 6 hours in milliseconds
@@ -102,4 +102,4 @@ function startAutoClear() {
 // Start the automatic clearing
 startAutoClear();
 
-module.exports = clearTmpCommand; 
+module.exports = clearTmpCommand;

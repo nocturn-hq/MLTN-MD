@@ -71,7 +71,7 @@ async function songCommand(sock, chatId, message) {
     try {
         const text = message.message?.conversation || message.message?.extendedTextMessage?.text || '';
         if (!text) {
-            await sock.sendMessage(chatId, { text: 'Usage: .song <song name or YouTube link>' }, { quoted: message });
+            await sock.sendMessage(chatId, { text: '⛧ Usage: .song <song name or YouTube link>' }, { quoted: message });
             return;
         }
 
@@ -81,7 +81,7 @@ async function songCommand(sock, chatId, message) {
         } else {
 			const search = await yts(text);
 			if (!search || !search.videos.length) {
-                await sock.sendMessage(chatId, { text: 'No results found.' }, { quoted: message });
+                await sock.sendMessage(chatId, { text: '☠️ The shadows found nothing matching that.' }, { quoted: message });
                 return;
             }
 			video = search.videos[0];
@@ -90,7 +90,7 @@ async function songCommand(sock, chatId, message) {
         // Inform user
         await sock.sendMessage(chatId, {
             image: { url: video.thumbnail },
-            caption: `🎵 Downloading: *${video.title}*\n⏱ Duration: ${video.timestamp}`
+            caption: `⛧ Extracting from the void: *${video.title}*\n⏱ Duration: ${video.timestamp}`
         }, { quoted: message });
 
 		// Try multiple APIs with fallback chain: EliteProTech -> Yupra -> Okatsu
@@ -301,13 +301,13 @@ async function songCommand(sock, chatId, message) {
         console.error('Song command error:', err);
         
         // Provide more specific error messages
-        let errorMessage = '❌ Failed to download song.';
+        let errorMessage = '☠️ The shadows failed to extract that track.';
         if (err.message && err.message.includes('blocked')) {
-            errorMessage = '❌ Download blocked. The content may be unavailable in your region or due to legal restrictions.';
+            errorMessage = '☠️ Extraction blocked. That content may be sealed off in your region or by decree.';
         } else if (err.response?.status === 451 || err.status === 451) {
-            errorMessage = '❌ Content unavailable (451). This may be due to legal restrictions or regional blocking.';
+            errorMessage = '☠️ Content unavailable (451). Legal restrictions or regional blocking stand in the way.';
         } else if (err.message && err.message.includes('All download sources failed')) {
-            errorMessage = '❌ All download sources failed. The content may be unavailable or blocked.';
+            errorMessage = '☠️ Every path into the shadows was blocked. That content may be unreachable.';
         }
         
         await sock.sendMessage(chatId, { 

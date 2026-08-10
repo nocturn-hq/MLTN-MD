@@ -25,20 +25,18 @@ async function anticallCommand(sock, chatId, message, args) {
     const sub = (args || '').trim().toLowerCase();
 
     if (!sub || (sub !== 'on' && sub !== 'off' && sub !== 'status')) {
-        await sock.sendMessage(chatId, { text: '*ANTICALL*\n\n.anticall on  - Enable auto-block on incoming calls\n.anticall off - Disable anticall\n.anticall status - Show current status' }, { quoted: message });
+        await sock.sendMessage(chatId, { text: '*👑 ANTICALL — THE MONARCH DOES NOT ANSWER*\n\n.anticall on  - Banish and block all incoming callers\n.anticall off - Lift the ward\n.anticall status - Reveal current state of the ward' }, { quoted: message });
         return;
     }
 
     if (sub === 'status') {
-        await sock.sendMessage(chatId, { text: `Anticall is currently *${state.enabled ? 'ON' : 'OFF'}*.` }, { quoted: message });
+        await sock.sendMessage(chatId, { text: `🌑 The anticall ward is currently *${state.enabled ? 'ACTIVE' : 'DORMANT'}*.` }, { quoted: message });
         return;
     }
 
     const enable = sub === 'on';
     writeState(enable);
-    await sock.sendMessage(chatId, { text: `Anticall is now *${enable ? 'ENABLED' : 'DISABLED'}*.` }, { quoted: message });
+    await sock.sendMessage(chatId, { text: `👑 The anticall ward is now *${enable ? 'ACTIVE' : 'DORMANT'}*.` }, { quoted: message });
 }
 
 module.exports = { anticallCommand, readState };
-
-

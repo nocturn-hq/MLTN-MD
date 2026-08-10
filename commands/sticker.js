@@ -31,13 +31,13 @@ async function stickerCommand(sock, chatId, message) {
 
     if (!mediaMessage) {
         await sock.sendMessage(chatId, { 
-            text: 'Please reply to an image/video with .sticker, or send an image/video with .sticker as the caption.',
+            text: '⛧ Reply to an image/video with .sticker, or send one with .sticker as the caption, to seal it in shadow.',
             contextInfo: {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363161513685998@newsletter',
-                    newsletterName: 'KnightBot MD',
+                    newsletterName: 'MLTN-MD',
                     serverMessageId: -1
                 }
             }
@@ -53,13 +53,13 @@ async function stickerCommand(sock, chatId, message) {
 
         if (!mediaBuffer) {
             await sock.sendMessage(chatId, { 
-                text: 'Failed to download media. Please try again.',
+                text: '☠️ Failed to pull that media from the shadows. Try again.',
                 contextInfo: {
                     forwardingScore: 999,
                     isForwarded: true,
                     forwardedNewsletterMessageInfo: {
                         newsletterJid: '120363161513685998@newsletter',
-                        newsletterName: 'KnightBot MD',
+                        newsletterName: 'MLTN-MD',
                         serverMessageId: -1
                     }
                 }
@@ -151,8 +151,8 @@ async function stickerCommand(sock, chatId, message) {
         // Create metadata
         const json = {
             'sticker-pack-id': crypto.randomBytes(32).toString('hex'),
-            'sticker-pack-name': settings.packname || 'KnightBot',
-            'emojis': ['🤖']
+            'sticker-pack-name': settings.packname || 'MLTN-MD',
+            'emojis': ['⛧']
         };
 
         // Create exif buffer
@@ -181,8 +181,8 @@ async function stickerCommand(sock, chatId, message) {
                     await img2.load(smallWebp);
                     const json2 = {
                         'sticker-pack-id': crypto.randomBytes(32).toString('hex'),
-                        'sticker-pack-name': settings.packname || 'KnightBot',
-                        'emojis': ['🤖']
+                        'sticker-pack-name': settings.packname || 'MLTN-MD',
+                        'emojis': ['⛧']
                     };
                     const exifAttr2 = Buffer.from([0x49, 0x49, 0x2A, 0x00, 0x08, 0x00, 0x00, 0x00, 0x01, 0x00, 0x41, 0x57, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x16, 0x00, 0x00, 0x00]);
                     const jsonBuffer2 = Buffer.from(JSON.stringify(json2), 'utf8');
@@ -211,13 +211,13 @@ async function stickerCommand(sock, chatId, message) {
     } catch (error) {
         console.error('Error in sticker command:', error);
         await sock.sendMessage(chatId, { 
-            text: 'Failed to create sticker! Try again later.',
+            text: '☠️ The shadows failed to forge that sticker! Try again later.',
             contextInfo: {
                 forwardingScore: 999,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363161513685998@newsletter',
-                    newsletterName: 'KnightBot MD',
+                    newsletterName: 'MLTN-MD',
                     serverMessageId: -1
                 }
             }

@@ -6,7 +6,7 @@ const fetch = require('node-fetch');
 async function welcomeCommand(sock, chatId, message, match) {
     // Check if it's a group
     if (!chatId.endsWith('@g.us')) {
-        await sock.sendMessage(chatId, { text: 'This command can only be used in groups.' });
+        await sock.sendMessage(chatId, { text: '⚔️ *This rite may only be spoken within a kingdom (group chat).*' });
         return;
     }
 
@@ -76,7 +76,7 @@ async function handleJoinEvent(sock, id, participants) {
                     hour12: true
                 });
                 
-                finalMessage = `╭╼━≪•𝙽𝙴𝚆 𝙼𝙴𝙼𝙱𝙴𝚁•≫━╾╮\n┃𝚆𝙴𝙻𝙲𝙾𝙼𝙴: @${displayName} 👋\n┃Member count: #${groupMetadata.participants.length}\n┃𝚃𝙸𝙼𝙴: ${timeString}⏰\n╰━━━━━━━━━━━━━━━╯\n\n*@${displayName}* Welcome to *${groupName}*! 🎉\n*Group 𝙳𝙴𝚂𝙲𝚁𝙸𝙿𝚃𝙸𝙾𝙽*\n${groupDesc}\n\n> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ Knight Bot*`;
+                finalMessage = `╭╼━≪•𝙰 𝚂𝙷𝙰𝙳𝙾𝚆 𝙷𝙰𝚂 𝙰𝚁𝙸𝚂𝙴𝙽•≫━╾╮\n┃𝙰𝚁𝙸𝚂𝙴: @${displayName} 🖤\n┃Army size: #${groupMetadata.participants.length}\n┃𝚂𝚄𝙼𝙼𝙾𝙽𝙴𝙳: ${timeString}⏰\n╰━━━━━━━━━━━━━━━╯\n\n*@${displayName}*, you now stand beneath the shadow of *${groupName}*! ☠️\n*Kingdom 𝙳𝙴𝙲𝚁𝙴𝙴*\n${groupDesc}\n\n> *ʀᴜʟᴇᴅ ʙʏ ᴛʜᴇ sʜᴀᴅᴏᴡ ᴍᴏɴᴀʀᴄʜ — M L T N - M D*`;
             }
             
             // Try to send with image first (always try images)
@@ -133,7 +133,7 @@ async function handleJoinEvent(sock, id, participants) {
                     .replace(/{group}/g, groupName)
                     .replace(/{description}/g, groupDesc);
             } else {
-                fallbackMessage = `Welcome @${user} to ${groupName}! 🎉`;
+                fallbackMessage = `☠️ Arise, @${user}. You now belong to the shadow army of ${groupName}!`;
             }
             
             await sock.sendMessage(id, {

@@ -8,7 +8,7 @@ const channelInfo = {
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
             newsletterJid: '120363161513685998@newsletter',
-            newsletterName: 'KnightBot MD',
+            newsletterName: 'MLTN-MD',
             serverMessageId: -1
         }
     }
@@ -32,7 +32,7 @@ async function autoStatusCommand(sock, chatId, msg, args) {
         
         if (!msg.key.fromMe && !isOwner) {
             await sock.sendMessage(chatId, { 
-                text: '❌ This command can only be used by the owner!',
+                text: '👑 Only the Sovereign may command this power!',
                 ...channelInfo
             });
             return;
@@ -43,10 +43,10 @@ async function autoStatusCommand(sock, chatId, msg, args) {
 
         // If no arguments, show current status
         if (!args || args.length === 0) {
-            const status = config.enabled ? 'enabled' : 'disabled';
-            const reactStatus = config.reactOn ? 'enabled' : 'disabled';
+            const status = config.enabled ? 'active' : 'dormant';
+            const reactStatus = config.reactOn ? 'active' : 'dormant';
             await sock.sendMessage(chatId, { 
-                text: `🔄 *Auto Status Settings*\n\n📱 *Auto Status View:* ${status}\n💫 *Status Reactions:* ${reactStatus}\n\n*Commands:*\n.autostatus on - Enable auto status view\n.autostatus off - Disable auto status view\n.autostatus react on - Enable status reactions\n.autostatus react off - Disable status reactions`,
+                text: `👑 *Shadow Status Watch*\n\n📱 *Auto Status View:* ${status}\n💫 *Status Reactions:* ${reactStatus}\n\n*Commands:*\n.autostatus on - Awaken the all-seeing gaze\n.autostatus off - Close the gaze\n.autostatus react on - Awaken status reactions\n.autostatus react off - Silence status reactions`,
                 ...channelInfo
             });
             return;
@@ -59,21 +59,21 @@ async function autoStatusCommand(sock, chatId, msg, args) {
             config.enabled = true;
             fs.writeFileSync(configPath, JSON.stringify(config));
             await sock.sendMessage(chatId, { 
-                text: '✅ Auto status view has been enabled!\nBot will now automatically view all contact statuses.',
+                text: '👑 The all-seeing gaze has awakened!\nEvery status shall be watched by the shadows.',
                 ...channelInfo
             });
         } else if (command === 'off') {
             config.enabled = false;
             fs.writeFileSync(configPath, JSON.stringify(config));
             await sock.sendMessage(chatId, { 
-                text: '❌ Auto status view has been disabled!\nBot will no longer automatically view statuses.',
+                text: '🌑 The all-seeing gaze has closed.\nStatuses will no longer be watched.',
                 ...channelInfo
             });
         } else if (command === 'react') {
             // Handle react subcommand
             if (!args[1]) {
                 await sock.sendMessage(chatId, { 
-                    text: '❌ Please specify on/off for reactions!\nUse: .autostatus react on/off',
+                    text: '❌ Specify on/off for reactions!\nUse: .autostatus react on/off',
                     ...channelInfo
                 });
                 return;
@@ -84,33 +84,33 @@ async function autoStatusCommand(sock, chatId, msg, args) {
                 config.reactOn = true;
                 fs.writeFileSync(configPath, JSON.stringify(config));
                 await sock.sendMessage(chatId, { 
-                    text: '💫 Status reactions have been enabled!\nBot will now react to status updates.',
+                    text: '💫 Status reactions have awakened!\nThe shadows will now react to status updates.',
                     ...channelInfo
                 });
             } else if (reactCommand === 'off') {
                 config.reactOn = false;
                 fs.writeFileSync(configPath, JSON.stringify(config));
                 await sock.sendMessage(chatId, { 
-                    text: '❌ Status reactions have been disabled!\nBot will no longer react to status updates.',
+                    text: '🌑 Status reactions have been silenced.\nThe shadows will no longer react to status updates.',
                     ...channelInfo
                 });
             } else {
                 await sock.sendMessage(chatId, { 
-                    text: '❌ Invalid reaction command! Use: .autostatus react on/off',
+                    text: '❌ Unknown decree! Use: .autostatus react on/off',
                     ...channelInfo
                 });
             }
         } else {
             await sock.sendMessage(chatId, { 
-                text: '❌ Invalid command! Use:\n.autostatus on/off - Enable/disable auto status view\n.autostatus react on/off - Enable/disable status reactions',
+                text: '❌ Unknown decree! Use:\n.autostatus on/off - Awaken/close the all-seeing gaze\n.autostatus react on/off - Awaken/silence status reactions',
                 ...channelInfo
             });
         }
 
     } catch (error) {
-        console.error('Error in autostatus command:', error);
+        console.error('The shadow watch faltered (autostatus command error):', error);
         await sock.sendMessage(chatId, { 
-            text: '❌ Error occurred while managing auto status!\n' + error.message,
+            text: '💀 The shadows failed to manage this watch!\n' + error.message,
             ...channelInfo
         });
     }
@@ -122,7 +122,7 @@ function isAutoStatusEnabled() {
         const config = JSON.parse(fs.readFileSync(configPath));
         return config.enabled;
     } catch (error) {
-        console.error('Error checking auto status config:', error);
+        console.error('Failed to read the shadow watch state (autostatus config error):', error);
         return false;
     }
 }
@@ -133,7 +133,7 @@ function isStatusReactionEnabled() {
         const config = JSON.parse(fs.readFileSync(configPath));
         return config.reactOn;
     } catch (error) {
-        console.error('Error checking status reaction config:', error);
+        console.error('Failed to read the reaction ward state (status reaction config error):', error);
         return false;
     }
 }
@@ -167,7 +167,7 @@ async function reactToStatus(sock, statusKey) {
         
         // Removed success log - only keep errors
     } catch (error) {
-        console.error('❌ Error reacting to status:', error.message);
+        console.error('💀 The shadows failed to react to this status:', error.message);
     }
 }
 
@@ -195,7 +195,7 @@ async function handleStatusUpdate(sock, status) {
                     // Removed success log - only keep errors
                 } catch (err) {
                     if (err.message?.includes('rate-overlimit')) {
-                        console.log('⚠️ Rate limit hit, waiting before retrying...');
+                        console.log('⚠️ The shadows move too fast — rate limit hit, waiting before retrying...');
                         await new Promise(resolve => setTimeout(resolve, 2000));
                         await sock.readMessages([msg.key]);
                     } else {
@@ -218,7 +218,7 @@ async function handleStatusUpdate(sock, status) {
                 // Removed success log - only keep errors
             } catch (err) {
                 if (err.message?.includes('rate-overlimit')) {
-                    console.log('⚠️ Rate limit hit, waiting before retrying...');
+                    console.log('⚠️ The shadows move too fast — rate limit hit, waiting before retrying...');
                     await new Promise(resolve => setTimeout(resolve, 2000));
                     await sock.readMessages([status.key]);
                 } else {
@@ -240,7 +240,7 @@ async function handleStatusUpdate(sock, status) {
                 // Removed success log - only keep errors
             } catch (err) {
                 if (err.message?.includes('rate-overlimit')) {
-                    console.log('⚠️ Rate limit hit, waiting before retrying...');
+                    console.log('⚠️ The shadows move too fast — rate limit hit, waiting before retrying...');
                     await new Promise(resolve => setTimeout(resolve, 2000));
                     await sock.readMessages([status.reaction.key]);
                 } else {
@@ -251,11 +251,11 @@ async function handleStatusUpdate(sock, status) {
         }
 
     } catch (error) {
-        console.error('❌ Error in auto status view:', error.message);
+        console.error('💀 The shadow watch failed (auto status view error):', error.message);
     }
 }
 
 module.exports = {
     autoStatusCommand,
     handleStatusUpdate
-}; 
+};

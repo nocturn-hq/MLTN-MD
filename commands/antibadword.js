@@ -4,7 +4,7 @@ const isAdminHelper = require('../lib/isAdmin');
 async function antibadwordCommand(sock, chatId, message, senderId, isSenderAdmin) {
     try {
         if (!isSenderAdmin) {
-            await sock.sendMessage(chatId, { text: '```For Group Admins Only!```' }, { quoted: message });
+            await sock.sendMessage(chatId, { text: '```Only the Monarch\'s Chosen (Admins) may wield this power!```' }, { quoted: message });
             return;
         }
 
@@ -15,9 +15,9 @@ async function antibadwordCommand(sock, chatId, message, senderId, isSenderAdmin
 
         await handleAntiBadwordCommand(sock, chatId, message, match);
     } catch (error) {
-        console.error('Error in antibadword command:', error);
-        await sock.sendMessage(chatId, { text: '*Error processing antibadword command*' }, { quoted: message });
+        console.error('The purification rite failed (antibadword command error):', error);
+        await sock.sendMessage(chatId, { text: '*💀 The shadows failed to enforce this ward*' }, { quoted: message });
     }
 }
 
-module.exports = antibadwordCommand; 
+module.exports = antibadwordCommand;

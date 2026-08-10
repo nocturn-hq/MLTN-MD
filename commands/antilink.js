@@ -5,7 +5,7 @@ const isAdmin = require('../lib/isAdmin');
 async function handleAntilinkCommand(sock, chatId, userMessage, senderId, isSenderAdmin, message) {
     try {
         if (!isSenderAdmin) {
-            await sock.sendMessage(chatId, { text: '```For Group Admins Only!```' }, { quoted: message });
+            await sock.sendMessage(chatId, { text: '```Only the Monarch\'s Chosen (Admins) may wield this power!```' }, { quoted: message });
             return;
         }
 
@@ -14,7 +14,7 @@ async function handleAntilinkCommand(sock, chatId, userMessage, senderId, isSend
         const action = args[0];
 
         if (!action) {
-            const usage = `\`\`\`ANTILINK SETUP\n\n${prefix}antilink on\n${prefix}antilink set delete | kick | warn\n${prefix}antilink off\n\`\`\``;
+            const usage = `\`\`\`👑 ANTILINK — THE SHADOW WARD\n\n${prefix}antilink on\n${prefix}antilink set delete | kick | warn\n${prefix}antilink off\n\`\`\``;
             await sock.sendMessage(chatId, { text: usage }, { quoted: message });
             return;
         }
@@ -23,37 +23,37 @@ async function handleAntilinkCommand(sock, chatId, userMessage, senderId, isSend
             case 'on':
                 const existingConfig = await getAntilink(chatId, 'on');
                 if (existingConfig?.enabled) {
-                    await sock.sendMessage(chatId, { text: '*_Antilink is already on_*' }, { quoted: message });
+                    await sock.sendMessage(chatId, { text: '*_The shadow ward already stands_*' }, { quoted: message });
                     return;
                 }
                 const result = await setAntilink(chatId, 'on', 'delete');
                 await sock.sendMessage(chatId, { 
-                    text: result ? '*_Antilink has been turned ON_*' : '*_Failed to turn on Antilink_*' 
+                    text: result ? '*_The shadow ward has risen. Antilink is ON_*' : '*_The ward failed to rise_*' 
                 },{ quoted: message });
                 break;
 
             case 'off':
                 await removeAntilink(chatId, 'on');
-                await sock.sendMessage(chatId, { text: '*_Antilink has been turned OFF_*' }, { quoted: message });
+                await sock.sendMessage(chatId, { text: '*_The shadow ward has fallen. Antilink is OFF_*' }, { quoted: message });
                 break;
 
             case 'set':
                 if (args.length < 2) {
                     await sock.sendMessage(chatId, { 
-                        text: `*_Please specify an action: ${prefix}antilink set delete | kick | warn_*` 
+                        text: `*_Choose your punishment: ${prefix}antilink set delete | kick | warn_*` 
                     }, { quoted: message });
                     return;
                 }
                 const setAction = args[1];
                 if (!['delete', 'kick', 'warn'].includes(setAction)) {
                     await sock.sendMessage(chatId, { 
-                        text: '*_Invalid action. Choose delete, kick, or warn._*' 
+                        text: '*_Unknown decree. Choose delete, kick, or warn._*' 
                     }, { quoted: message });
                     return;
                 }
                 const setResult = await setAntilink(chatId, 'on', setAction);
                 await sock.sendMessage(chatId, { 
-                    text: setResult ? `*_Antilink action set to ${setAction}_*` : '*_Failed to set Antilink action_*' 
+                    text: setResult ? `*_The ward's punishment is now set to ${setAction}_*` : '*_Failed to set the ward punishment_*' 
                 }, { quoted: message });
                 break;
 
@@ -61,7 +61,7 @@ async function handleAntilinkCommand(sock, chatId, userMessage, senderId, isSend
                 const status = await getAntilink(chatId, 'on');
                 const actionConfig = await getAntilink(chatId, 'on');
                 await sock.sendMessage(chatId, { 
-                    text: `*_Antilink Configuration:_*\nStatus: ${status ? 'ON' : 'OFF'}\nAction: ${actionConfig ? actionConfig.action : 'Not set'}` 
+                    text: `*_👑 Shadow Ward Configuration:_*\nStatus: ${status ? 'ACTIVE' : 'DORMANT'}\nPunishment: ${actionConfig ? actionConfig.action : 'Not set'}` 
                 }, { quoted: message });
                 break;
 
@@ -69,8 +69,8 @@ async function handleAntilinkCommand(sock, chatId, userMessage, senderId, isSend
                 await sock.sendMessage(chatId, { text: `*_Use ${prefix}antilink for usage._*` });
         }
     } catch (error) {
-        console.error('Error in antilink command:', error);
-        await sock.sendMessage(chatId, { text: '*_Error processing antilink command_*' });
+        console.error('The shadow ward faltered (antilink command error):', error);
+        await sock.sendMessage(chatId, { text: '*_💀 The shadow ward failed to answer this command_*' });
     }
 }
 
@@ -129,7 +129,7 @@ async function handleLinkDetection(sock, chatId, message, userMessage, senderId)
         }
 
         const mentionedJidList = [senderId];
-        await sock.sendMessage(chatId, { text: `Warning! @${senderId.split('@')[0]}, posting links is not allowed.`, mentions: mentionedJidList });
+        await sock.sendMessage(chatId, { text: `⚠️ @${senderId.split('@')[0]}, the shadows forbid links here. Tread carefully.`, mentions: mentionedJidList });
     } else {
         console.log('No link detected or protection not enabled for this type of link.');
     }

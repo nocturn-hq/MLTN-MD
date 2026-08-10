@@ -4,7 +4,7 @@ const isAdmin = require('../lib/isAdmin');
 async function handleAntitagCommand(sock, chatId, userMessage, senderId, isSenderAdmin, message) {
     try {
         if (!isSenderAdmin) {
-            await sock.sendMessage(chatId, { text: '```For Group Admins Only!```' },{quoted :message});
+            await sock.sendMessage(chatId, { text: '```Only the Monarch\'s Chosen (Admins) may wield this power!```' },{quoted :message});
             return;
         }
 
@@ -13,7 +13,7 @@ async function handleAntitagCommand(sock, chatId, userMessage, senderId, isSende
         const action = args[0];
 
         if (!action) {
-            const usage = `\`\`\`ANTITAG SETUP\n\n${prefix}antitag on\n${prefix}antitag set delete | kick\n${prefix}antitag off\n\`\`\``;
+            const usage = `\`\`\`👑 ANTITAG — THE SHADOW WARD AGAINST MASS SUMMONING\n\n${prefix}antitag on\n${prefix}antitag set delete | kick\n${prefix}antitag off\n\`\`\``;
             await sock.sendMessage(chatId, { text: usage },{quoted :message});
             return;
         }
@@ -22,37 +22,37 @@ async function handleAntitagCommand(sock, chatId, userMessage, senderId, isSende
             case 'on':
                 const existingConfig = await getAntitag(chatId, 'on');
                 if (existingConfig?.enabled) {
-                    await sock.sendMessage(chatId, { text: '*_Antitag is already on_*' },{quoted :message});
+                    await sock.sendMessage(chatId, { text: '*_The shadow ward already stands_*' },{quoted :message});
                     return;
                 }
                 const result = await setAntitag(chatId, 'on', 'delete');
                 await sock.sendMessage(chatId, { 
-                    text: result ? '*_Antitag has been turned ON_*' : '*_Failed to turn on Antitag_*' 
+                    text: result ? '*_The shadow ward has risen. Antitag is ON_*' : '*_The ward failed to rise_*' 
                 },{quoted :message});
                 break;
 
             case 'off':
                 await removeAntitag(chatId, 'on');
-                await sock.sendMessage(chatId, { text: '*_Antitag has been turned OFF_*' },{quoted :message});
+                await sock.sendMessage(chatId, { text: '*_The shadow ward has fallen. Antitag is OFF_*' },{quoted :message});
                 break;
 
             case 'set':
                 if (args.length < 2) {
                     await sock.sendMessage(chatId, { 
-                        text: `*_Please specify an action: ${prefix}antitag set delete | kick_*` 
+                        text: `*_Choose your punishment: ${prefix}antitag set delete | kick_*` 
                     },{quoted :message});
                     return;
                 }
                 const setAction = args[1];
                 if (!['delete', 'kick'].includes(setAction)) {
                     await sock.sendMessage(chatId, { 
-                        text: '*_Invalid action. Choose delete or kick._*' 
+                        text: '*_Unknown decree. Choose delete or kick._*' 
                     },{quoted :message});
                     return;
                 }
                 const setResult = await setAntitag(chatId, 'on', setAction);
                 await sock.sendMessage(chatId, { 
-                    text: setResult ? `*_Antitag action set to ${setAction}_*` : '*_Failed to set Antitag action_*' 
+                    text: setResult ? `*_The ward punishment is now set to ${setAction}_*` : '*_Failed to set the ward punishment_*' 
                 },{quoted :message});
                 break;
 
@@ -60,7 +60,7 @@ async function handleAntitagCommand(sock, chatId, userMessage, senderId, isSende
                 const status = await getAntitag(chatId, 'on');
                 const actionConfig = await getAntitag(chatId, 'on');
                 await sock.sendMessage(chatId, { 
-                    text: `*_Antitag Configuration:_*\nStatus: ${status ? 'ON' : 'OFF'}\nAction: ${actionConfig ? actionConfig.action : 'Not set'}` 
+                    text: `*_👑 Shadow Ward Configuration:_*\nStatus: ${status ? 'ACTIVE' : 'DORMANT'}\nPunishment: ${actionConfig ? actionConfig.action : 'Not set'}` 
                 },{quoted :message});
                 break;
 
@@ -68,8 +68,8 @@ async function handleAntitagCommand(sock, chatId, userMessage, senderId, isSende
                 await sock.sendMessage(chatId, { text: `*_Use ${prefix}antitag for usage._*` },{quoted :message});
         }
     } catch (error) {
-        console.error('Error in antitag command:', error);
-        await sock.sendMessage(chatId, { text: '*_Error processing antitag command_*' },{quoted :message});
+        console.error('The shadow ward faltered (antitag command error):', error);
+        await sock.sendMessage(chatId, { text: '*_💀 The shadow ward failed to answer this command_*' },{quoted :message});
     }
 }
 
@@ -149,7 +149,7 @@ async function handleTagDetection(sock, chatId, message, senderId) {
                     
                     // Send warning
                     await sock.sendMessage(chatId, {
-                        text: `⚠️ *Tagall Detected!*.`
+                        text: `⚠️ *Mass Summoning Detected! The shadows do not tolerate a tagall.*`
                     }, { quoted: message });
                     
                 } else if (action === 'kick') {
@@ -169,14 +169,14 @@ async function handleTagDetection(sock, chatId, message, senderId) {
                     // Send notification
                     const usernames = [`@${senderId.split('@')[0]}`];
                     await sock.sendMessage(chatId, {
-                        text: `🚫 *Antitag Detected!*\n\n${usernames.join(', ')} has been kicked for tagging all members.`,
+                        text: `🚫 *Mass Summoning Detected!*\n\n${usernames.join(', ')} has been banished from the group for tagging all members.`,
                         mentions: [senderId]
                     }, { quoted: message });
                 }
             }
         }
     } catch (error) {
-        console.error('Error in tag detection:', error);
+        console.error('The shadow ward faltered during detection (tag detection error):', error);
     }
 }
 
@@ -184,4 +184,3 @@ module.exports = {
     handleAntitagCommand,
     handleTagDetection
 };
-

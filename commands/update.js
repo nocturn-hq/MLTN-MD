@@ -176,7 +176,7 @@ async function updateViaZip(sock, chatId, message, zipOverride) {
 
 async function restartProcess(sock, chatId, message) {
     try {
-        await sock.sendMessage(chatId, { text: '✅ Update complete! Restarting…' }, { quoted: message });
+        await sock.sendMessage(chatId, { text: '⚔️ The ritual is complete! The shadows are reforming…' }, { quoted: message });
     } catch {}
     try {
         // Preferred: PM2
@@ -195,17 +195,17 @@ async function updateCommand(sock, chatId, message, zipOverride) {
     const isOwner = await isOwnerOrSudo(senderId, sock, chatId);
     
     if (!message.key.fromMe && !isOwner) {
-        await sock.sendMessage(chatId, { text: 'Only bot owner or sudo can use .update' }, { quoted: message });
+        await sock.sendMessage(chatId, { text: '⛧ Only the Monarch (MILITAN) or a sworn commander may invoke .update' }, { quoted: message });
         return;
     }
     try {
         // Minimal UX
-        await sock.sendMessage(chatId, { text: '🔄 Updating the bot, please wait…' }, { quoted: message });
+        await sock.sendMessage(chatId, { text: '⛧ The shadows are reforging the army... stand by.' }, { quoted: message });
         if (await hasGitRepo()) {
             // silent
             const { oldRev, newRev, alreadyUpToDate, commits, files } = await updateViaGit();
             // Short message only: version info
-            const summary = alreadyUpToDate ? `✅ Already up to date: ${newRev}` : `✅ Updated to ${newRev}`;
+            const summary = alreadyUpToDate ? `👑 Already at the strongest form: ${newRev}` : `⚔️ Ascended to ${newRev}`;
             console.log('[update] summary generated');
             // silent
             await run('npm install --no-audit --no-fund');
@@ -215,17 +215,15 @@ async function updateCommand(sock, chatId, message, zipOverride) {
         }
         try {
             const v = require('../settings').version || '';
-            await sock.sendMessage(chatId, { text: `✅ Update done. Restarting…` }, { quoted: message });
+            await sock.sendMessage(chatId, { text: `👑 Ascension complete. Reforming...` }, { quoted: message });
         } catch {
-            await sock.sendMessage(chatId, { text: '✅ Restared Successfully\n Type .ping to check latest version.' }, { quoted: message });
+            await sock.sendMessage(chatId, { text: '👑 Reformed Successfully\n Type .ping to check latest rank.' }, { quoted: message });
         }
         await restartProcess(sock, chatId, message);
     } catch (err) {
         console.error('Update failed:', err);
-        await sock.sendMessage(chatId, { text: `❌ Update failed:\n${String(err.message || err)}` }, { quoted: message });
+        await sock.sendMessage(chatId, { text: `☠️ The ascension failed:\n${String(err.message || err)}` }, { quoted: message });
     }
 }
 
 module.exports = updateCommand;
-
-

@@ -1,6 +1,6 @@
 /**
- * Knight Bot - A WhatsApp Bot
- * Autoread Command - Automatically read all messages
+ * MLTN-MD - Shadow Monarch Edition
+ * Autoread Command - The Monarch watches every message unseen
  */
 
 const fs = require('fs');
@@ -26,13 +26,13 @@ async function autoreadCommand(sock, chatId, message) {
         
         if (!message.key.fromMe && !isOwner) {
             await sock.sendMessage(chatId, {
-                text: '❌ This command is only available for the owner!',
+                text: '👑 Only the Sovereign may command this power!',
                 contextInfo: {
                     forwardingScore: 1,
                     isForwarded: true,
                     forwardedNewsletterMessageInfo: {
                         newsletterJid: '120363161513685998@newsletter',
-                        newsletterName: 'KnightBot MD',
+                        newsletterName: 'MLTN-MD',
                         serverMessageId: -1
                     }
                 }
@@ -57,13 +57,13 @@ async function autoreadCommand(sock, chatId, message) {
                 config.enabled = false;
             } else {
                 await sock.sendMessage(chatId, {
-                    text: '❌ Invalid option! Use: .autoread on/off',
+                    text: '❌ Unknown decree! Use: .autoread on/off',
                     contextInfo: {
                         forwardingScore: 1,
                         isForwarded: true,
                         forwardedNewsletterMessageInfo: {
                             newsletterJid: '120363161513685998@newsletter',
-                            newsletterName: 'KnightBot MD',
+                            newsletterName: 'MLTN-MD',
                             serverMessageId: -1
                         }
                     }
@@ -80,28 +80,28 @@ async function autoreadCommand(sock, chatId, message) {
         
         // Send confirmation message
         await sock.sendMessage(chatId, {
-            text: `✅ Auto-read has been ${config.enabled ? 'enabled' : 'disabled'}!`,
+            text: `👑 The all-seeing gaze has been ${config.enabled ? 'awakened' : 'closed'}!`,
             contextInfo: {
                 forwardingScore: 1,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363161513685998@newsletter',
-                    newsletterName: 'KnightBot MD',
+                    newsletterName: 'MLTN-MD',
                     serverMessageId: -1
                 }
             }
         });
         
     } catch (error) {
-        console.error('Error in autoread command:', error);
+        console.error('The all-seeing gaze faltered (autoread command error):', error);
         await sock.sendMessage(chatId, {
-            text: '❌ Error processing command!',
+            text: '💀 The shadows failed to answer this command!',
             contextInfo: {
                 forwardingScore: 1,
                 isForwarded: true,
                 forwardedNewsletterMessageInfo: {
                     newsletterJid: '120363161513685998@newsletter',
-                    newsletterName: 'KnightBot MD',
+                    newsletterName: 'MLTN-MD',
                     serverMessageId: -1
                 }
             }
@@ -115,7 +115,7 @@ function isAutoreadEnabled() {
         const config = initConfig();
         return config.enabled;
     } catch (error) {
-        console.error('Error checking autoread status:', error);
+        console.error('Failed to read the shadow watch state (autoread status error):', error);
         return false;
     }
 }
@@ -155,7 +155,7 @@ function isBotMentionedInMessage(message, botNumber) {
         }
         
         // Check for bot name mentions (optional, can be customized)
-        const botNames = [global.botname?.toLowerCase(), 'bot', 'knight', 'knight bot'];
+        const botNames = [global.botname?.toLowerCase(), 'bot', 'mltn', 'shadow monarch'];
         const words = textContent.toLowerCase().split(/\s+/);
         if (botNames.some(name => words.includes(name))) {
             return true;

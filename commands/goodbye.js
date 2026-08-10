@@ -5,7 +5,7 @@ const fetch = require('node-fetch');
 async function goodbyeCommand(sock, chatId, message, match) {
     // Check if it's a group
     if (!chatId.endsWith('@g.us')) {
-        await sock.sendMessage(chatId, { text: 'This command can only be used in groups.' });
+        await sock.sendMessage(chatId, { text: '⛧ This command only answers to the Monarch within a shadow army (group).' });
         return;
     }
 
@@ -62,7 +62,7 @@ async function handleLeaveEvent(sock, id, participants) {
                     .replace(/{group}/g, groupName);
             } else {
                 // Default message if no custom message is set
-                finalMessage = ` *@${displayName}* we will never miss you! `;
+                finalMessage = `⚔️ *@${displayName}* has fallen from the ranks of this shadow army. Erased. Forgotten. Next.`;
             }
             
             // Try to send with image first (always try images)
@@ -116,7 +116,7 @@ async function handleLeaveEvent(sock, id, participants) {
                     .replace(/{user}/g, `@${user}`)
                     .replace(/{group}/g, groupName);
             } else {
-                fallbackMessage = `Goodbye @${user}! 👋`;
+                fallbackMessage = `☠️ @${user} has been cast out of the shadow army.`;
             }
             
             await sock.sendMessage(id, {

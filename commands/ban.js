@@ -10,18 +10,18 @@ async function banCommand(sock, chatId, message) {
         const senderId = message.key.participant || message.key.remoteJid;
         const { isSenderAdmin, isBotAdmin } = await isAdmin(sock, chatId, senderId);
         if (!isBotAdmin) {
-            await sock.sendMessage(chatId, { text: 'Please make the bot an admin to use .ban', ...channelInfo }, { quoted: message });
+            await sock.sendMessage(chatId, { text: '👑 Grant the Monarch admin power to wield .ban', ...channelInfo }, { quoted: message });
             return;
         }
         if (!isSenderAdmin && !message.key.fromMe) {
-            await sock.sendMessage(chatId, { text: 'Only group admins can use .ban', ...channelInfo }, { quoted: message });
+            await sock.sendMessage(chatId, { text: '👑 Only the Monarch\'s Chosen (Admins) can use .ban', ...channelInfo }, { quoted: message });
             return;
         }
     } else {
         const senderId = message.key.participant || message.key.remoteJid;
         const senderIsSudo = await isSudo(senderId);
         if (!message.key.fromMe && !senderIsSudo) {
-            await sock.sendMessage(chatId, { text: 'Only owner/sudo can use .ban in private chat', ...channelInfo }, { quoted: message });
+            await sock.sendMessage(chatId, { text: '👑 Only the Sovereign can use .ban in private chat', ...channelInfo }, { quoted: message });
             return;
         }
     }
@@ -38,7 +38,7 @@ async function banCommand(sock, chatId, message) {
     
     if (!userToBan) {
         await sock.sendMessage(chatId, { 
-            text: 'Please mention the user or reply to their message to ban!', 
+            text: '👑 Name your target — mention the user or reply to their message to banish them!', 
             ...channelInfo 
         });
         return;
@@ -48,7 +48,7 @@ async function banCommand(sock, chatId, message) {
     try {
         const botId = sock.user.id.split(':')[0] + '@s.whatsapp.net';
         if (userToBan === botId || userToBan === botId.replace('@s.whatsapp.net', '@lid')) {
-            await sock.sendMessage(chatId, { text: 'You cannot ban the bot account.', ...channelInfo }, { quoted: message });
+            await sock.sendMessage(chatId, { text: '👑 The Monarch cannot banish itself.', ...channelInfo }, { quoted: message });
             return;
         }
     } catch {}
@@ -61,20 +61,20 @@ async function banCommand(sock, chatId, message) {
             fs.writeFileSync('./data/banned.json', JSON.stringify(bannedUsers, null, 2));
             
             await sock.sendMessage(chatId, { 
-                text: `Successfully banned @${userToBan.split('@')[0]}!`,
+                text: `⚔️ @${userToBan.split('@')[0]} has been cast into the shadow exile!`,
                 mentions: [userToBan],
                 ...channelInfo 
             });
         } else {
             await sock.sendMessage(chatId, { 
-                text: `${userToBan.split('@')[0]} is already banned!`,
+                text: `${userToBan.split('@')[0]} already dwells in the shadow exile!`,
                 mentions: [userToBan],
                 ...channelInfo 
             });
         }
     } catch (error) {
-        console.error('Error in ban command:', error);
-        await sock.sendMessage(chatId, { text: 'Failed to ban user!', ...channelInfo });
+        console.error('The banishment ritual failed (ban command error):', error);
+        await sock.sendMessage(chatId, { text: '💀 The shadows failed to banish this user!', ...channelInfo });
     }
 }
 
