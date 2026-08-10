@@ -62,6 +62,15 @@ store.readFromFile()
 const settings = require('./settings')
 setInterval(() => store.writeToFile(), settings.storeWriteInterval || 10000)
 
+// Minimal health-check server — Render's Web Service type needs an open
+// HTTP port to confirm the deploy is alive, or it times out waiting.
+const express = require('express')
+const healthApp = express()
+healthApp.get('/', (req, res) => res.send('MLTN-MD is running.'))
+healthApp.listen(process.env.PORT || 10000, () => {
+    console.log(`✅ Health check server listening on port ${process.env.PORT || 10000}`)
+})
+
 // Memory optimization - Force garbage collection if available
 setInterval(() => {
     if (global.gc) {
@@ -327,16 +336,7 @@ async function startXeonBotInc() {
             try {
                 const botNumber = XeonBotInc.user.id.split(':')[0] + '@s.whatsapp.net';
                 await XeonBotInc.sendMessage(botNumber, {
-                    text: `👑 MLTN-MD has Arisen.\n\n⏰ Time: ${new Date().toLocaleString()}\n⚔️ Status: Online and commanding the shadows!\n\n🩸 Join the ranks — join the channel below.`,
-                    contextInfo: {
-                        forwardingScore: 1,
-                        isForwarded: true,
-                        forwardedNewsletterMessageInfo: {
-                            newsletterJid: '120363161513685998@newsletter',
-                            newsletterName: 'MLTN-MD',
-                            serverMessageId: -1
-                        }
-                    }
+                    text: `👑 MLTN-MD has Arisen.\n\n⏰ Time: ${new Date().toLocaleString()}\n⚔️ Status: Online and commanding the shadows!`
                 });
             } catch (error) {
                 console.error('Failed to send the arisal message to the throne:', error.message)
@@ -382,7 +382,6 @@ async function startXeonBotInc() {
     // Track recently-notified callers to avoid spamming messages
     const antiCallNotified = new Set();
 
-    // Anticall handler: block callers when enabled
     // Anticall handler: block callers when enabled
     XeonBotInc.ev.on('call', async (calls) => {
         try {
