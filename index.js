@@ -216,23 +216,14 @@ async function startXeonBotInc() {
                 XeonBotInc.msgRetryCounterCache.clear()
             }
 
-            try {
+           try {
                 await handleMessages(XeonBotInc, chatUpdate, true)
             } catch (err) {
                 console.error("A shadow soldier fell in battle (handleMessages error):", err)
                 // Only try to send error message if we have a valid chatId
                 if (mek.key && mek.key.remoteJid) {
                     await XeonBotInc.sendMessage(mek.key.remoteJid, {
-                        text: '💀 Something stirred in the shadows and broke the ritual. Try again.',
-                        contextInfo: {
-                            forwardingScore: 1,
-                            isForwarded: true,
-                            forwardedNewsletterMessageInfo: {
-                                newsletterJid: '120363161513685998@newsletter',
-                                newsletterName: 'MLTN-MD',
-                                serverMessageId: -1
-                            }
-                        }
+                        text: '💀 Something stirred in the shadows and broke the ritual. Try again.'
                     }).catch(console.error);
                 }
             }
