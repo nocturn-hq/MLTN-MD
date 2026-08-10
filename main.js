@@ -724,6 +724,9 @@ async function handleMessages(sock, messageUpdate, printLog) {
             case userMessage === '.repo':
                 await githubCommand(sock, chatId, message);
                 break;
+                case userMessage === '.pair':
+                await pairCommand(sock, chatId, message);
+                break;
             case userMessage.startsWith('.antibadword'):
                 if (!isGroup) {
                     await sock.sendMessage(chatId, { text: '⛧ This shadow\'s ward only guards groups.', ...channelInfo }, { quoted: message });
