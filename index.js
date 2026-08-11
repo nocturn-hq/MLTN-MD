@@ -372,10 +372,11 @@ async function startXeonBotInc() {
             }
             
             if (shouldReconnect) {
-                console.log(chalk.yellow('🌑 The Monarch stirs... reconnecting...'))
-                await delay(5000)
-                startXeonBotInc()
-            }
+       console.log(chalk.yellow('🌑 The Monarch stirs... reconnecting...'))
+       XeonBotInc.ev.removeAllListeners()
+       await delay(5000)
+       startXeonBotInc()
+   }
         }
     })
 
