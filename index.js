@@ -153,11 +153,16 @@ async function startXeonBotInc() {
         // both the MongoDB-stored session and the QR/pairing prompt, since it
         // means you're explicitly telling the bot which session to use.
         if (process.env.SESSION_ID) {
-            const imported = importSessionId(process.env.SESSION_ID)
+            const rawSessionId = process.env.SESSION_ID
+            const sidLen = rawSessionId.length
+            const sidFirst20 = rawSessionId.slice(0, 20)
+            const sidLast20 = rawSessionId.slice(-20)
+
+            const imported = importSessionId(rawSessionId)
             if (imported) {
-                console.log(chalk.green('👑 Using session imported from SESSION_ID — skipping MongoDB restore and QR/pairing.'))
+                console.log(chalk.green(`👑 Using session imported from SESSION_ID (len=${sidLen}, first20=${sidFirst20}) — skipping MongoDB restore and QR/pairing.`))
             } else {
-                console.log(chalk.yellow('⚠️ SESSION_ID was set but could not be imported — falling back to MongoDB/QR/pairing.'))
+                console.log(chalk.yellow(`⚠️ SESSION_ID was set but could not be imported (len=${sidLen}, first20=${sidFirst20}, last20=${sidLast20}) — falling back to MongoDB/QR/pairing.`))
             }
         }
 
