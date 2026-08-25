@@ -48,7 +48,11 @@ const { join } = require('path')
 
 // MongoDB session persistence — keeps the shadow bound to you across
 // Render restarts/redeploys, since Render's disk does not persist.
-const { restoreSession, backupSession, clearSession } = require('./lib/mongoSession')
+// SESSION_DIR is the single source of truth for the local session folder,
+// scoped per BOT_ID — everything below (Baileys auth state, existence
+// checks, and deletion on logout) reads/writes THIS folder, so it always
+// agrees with what restoreSession()/backupSession() operate on.
+const { restoreSession, backupSession, clearSession, SESSION_DIR } = require('./lib/mongoSession')
 
 // Import a pre-generated session (from the MLTN;;; pairing site output) if
 // SESSION_ID is set — this skips QR/pairing entirely on first boot.
@@ -126,7 +130,7 @@ async function decidePairingMode() {
     if (useMobile) return // mobile API path doesn't use this prompt
     if (!rl) return // non-interactive environment — just fall back to QR
 
-    const sessionExists = existsSync('./session') && fs.readdirSync('./session').length > 0
+    const sessionExists = existsSync(SESSION_DIR) && fs.readdirSync(SESSION_DIR).length > 0
     if (sessionExists) return // already bound, no need to ask again
 
     const choice = await question(
@@ -158,7 +162,7 @@ async function startXeonBotInc() {
         }
 
         // Pull any previously saved session down from MongoDB before Baileys
-        // reads ./session — this is what lets the bot survive a Render restart
+        // reads SESSION_DIR — this is what lets the bot survive a Render restart
         // without needing to re-pair. Harmless no-op if SESSION_ID already
         // wrote a valid session above and MongoDB has nothing newer.
         await restoreSession()
@@ -166,7 +170,7 @@ async function startXeonBotInc() {
         await decidePairingMode()
 
         let { version, isLatest } = await fetchLatestBaileysVersion()
-        const { state, saveCreds } = await useMultiFileAuthState(`./session`)
+        const { state, saveCreds } = await useMultiFileAuthState(SESSION_DIR)
         const msgRetryCounterCache = new NodeCache()
 
         const XeonBotInc = makeWASocket({
@@ -360,7 +364,7 @@ async function startXeonBotInc() {
             
             if (statusCode === DisconnectReason.loggedOut || statusCode === 401) {
                 try {
-                    rmSync('./session', { recursive: true, force: true })
+                    rmSync(SESSION_DIR, { recursive: true, force: true })
                     console.log(chalk.yellow('🩸 The old pact is severed. Session deleted — re-authenticate to bind again.'))
                 } catch (error) {
                     console.error('Failed to sever the old pact (session delete error):', error)
